@@ -124,6 +124,68 @@
             android:enabled="true"
             android:exported="false">
         </service>
+
+        <!-- Tasker -->
+        <activity
+            android:name=".tasker.activities.CreateAlarmActivity"
+            android:exported="false"
+            android:label="@string/create_alarm_activity"
+            android:theme="@style/Theme.AppCompat"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
+
+        <activity-alias
+            android:name="com.twofortyfouram.locale.example.setting.toast.ui.activity.PluginActivity"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/create_alarm_activity"
+            android:targetActivity=".tasker.activities.CreateAlarmActivity">
+            <!-- this Intent filter allows the plug-in to be discovered by the host. -->
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING"/>
+            </intent-filter>
+        </activity-alias>
+
+        <activity
+            android:name=".tasker.activities.DeleteAlarmActivity"
+            android:exported="false"
+            android:label="@string/detele_alarm_activity"
+            android:theme="@style/Theme.AppCompat"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="adjustResize">
+        </activity>
+
+        <activity-alias
+            android:name="com.twofortyfouram.locale.example.setting.toast.ui.activity.DeleteAlarmActivity"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/detele_alarm_activity"
+            android:targetActivity=".tasker.activities.DeleteAlarmActivity">
+            <!-- this Intent filter allows the plug-in to be discovered by the host. -->
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING"/>
+            </intent-filter>
+        </activity-alias>
+
+        <!--
+             This is the "fire" BroadcastReceiver. Note that the host will reject plug-in
+             BroadcastReceivers for the following reasons:
+                - The BroadcastReceiver isn't exported (e.g. android:exported="false")
+                - The BroadcastReceiver isn't enabled (e.g. android:enabled="false")
+                - The BroadcastReceiver requires permissions not available to the host
+                - There are multiple BroadcastReceivers for com.twofortyfouram.locale.intent.action.FIRE_SETTING
+        -->
+        <receiver
+            android:name=".tasker.receiver.FireReceiver"
+            android:exported="true"
+            android:process=":background">
+
+            <!-- this Intent filter allows the plug-in to discovered by the host. -->
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
