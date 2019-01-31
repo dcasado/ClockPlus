@@ -40,7 +40,7 @@ public final class CreateAlarmActivity extends AbstractAppCompatPluginActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_tasker);
+        setContentView(R.layout.activity_tasker_create_alarm);
 
         /*
          * To help the user keep context, the title shows the host's name and the subtitle
@@ -67,10 +67,10 @@ public final class CreateAlarmActivity extends AbstractAppCompatPluginActivity {
     @Override
     public void onPostCreateWithPreviousResult(@NonNull final Bundle previousBundle,
                                                @NonNull final String previousBlurb) {
-        final String message = PluginBundleValues.getLabel(previousBundle);
-        ((EditText) findViewById(R.id.text_label)).setText(message);
+        final String label = PluginBundleValues.getLabel(previousBundle);
+        ((EditText) findViewById(R.id.activity_tasker_create_alarm_edit_text_label)).setText(label);
         final String time = PluginBundleValues.getTime(previousBundle);
-        ((EditText) findViewById(R.id.text_time)).setText(time);
+        ((EditText) findViewById(R.id.activity_tasker_create_alarm_edit_text_time)).setText(time);
     }
 
     @Override
@@ -84,10 +84,10 @@ public final class CreateAlarmActivity extends AbstractAppCompatPluginActivity {
         Bundle result = null;
 
         final Actions action = Actions.CREATE;
-        final String label = ((EditText) findViewById(R.id.text_label)).getText().toString();
-        final String time = ((EditText) findViewById(R.id.text_time)).getText().toString();
+        final String label = ((EditText) findViewById(R.id.activity_tasker_create_alarm_edit_text_label)).getText().toString();
+        final String time = ((EditText) findViewById(R.id.activity_tasker_create_alarm_edit_text_time)).getText().toString();
         if (!TextUtils.isEmpty(label) && !TextUtils.isEmpty(time)) {
-            result = PluginBundleValues.generateBundle(getApplicationContext(), action, label, time);
+            result = PluginBundleValues.generateBundle(getApplicationContext(), action.getValue(), label, time);
 
             if (TaskerPlugin.Setting.hostSupportsOnFireVariableReplacement(this)) {
                 TaskerPlugin.Setting.setVariableReplaceKeys(result, new String[]{

@@ -20,13 +20,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.philliphsu.clock2.tasker.Actions;
 import com.twofortyfouram.assertion.BundleAssertions;
 import com.twofortyfouram.log.Lumberjack;
 import com.twofortyfouram.spackle.AppBuildInfo;
 
 import net.jcip.annotations.ThreadSafe;
 
-import static com.twofortyfouram.assertion.Assertions.assertNotEmpty;
 import static com.twofortyfouram.assertion.Assertions.assertNotNull;
 
 /**
@@ -34,7 +34,7 @@ import static com.twofortyfouram.assertion.Assertions.assertNotNull;
  * plug-in.
  */
 @ThreadSafe
-public final class PluginBundleValues {
+public final class DeleteAlarmBundleValues {
 
     /**
      * Type: {@code String}.
@@ -55,15 +55,6 @@ public final class PluginBundleValues {
             = "com.dcasado.extra.STRING_LABEL"; //$NON-NLS-1$
 
     /**
-     * Type: {@code String}.
-     * <p>
-     * String message to display in a Toast message.
-     */
-    @NonNull
-    public static final String BUNDLE_EXTRA_STRING_TIME
-            = "com.dcasado.extra.STRING_TIME"; //$NON-NLS-1$
-
-    /**
      * Type: {@code int}.
      * <p>
      * versionCode of the plug-in that saved the Bundle.
@@ -76,6 +67,15 @@ public final class PluginBundleValues {
     @NonNull
     public static final String BUNDLE_EXTRA_INT_VERSION_CODE
             = "com.dcasado.extra.INT_VERSION_CODE"; //$NON-NLS-1$
+
+    /**
+     * Private constructor prevents instantiation
+     *
+     * @throws UnsupportedOperationException because this class cannot be instantiated.
+     */
+    private DeleteAlarmBundleValues() {
+        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+    }
 
     /**
      * Method to verify the content of the bundle are correct.
@@ -93,9 +93,8 @@ public final class PluginBundleValues {
         try {
             BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_ACTION);
             BundleAssertions.assertHasString(bundle, BUNDLE_EXTRA_STRING_LABEL, false, false);
-            BundleAssertions.assertHasString(bundle, BUNDLE_EXTRA_STRING_TIME, false, false);
             BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_VERSION_CODE);
-            //BundleAssertions.assertKeyCount(bundle, 3);
+            BundleAssertions.assertKeyCount(bundle, 3);
         } catch (final AssertionError e) {
             Lumberjack.e("Bundle failed verification%s", e); //$NON-NLS-1$
             return false;
@@ -106,24 +105,22 @@ public final class PluginBundleValues {
 
     /**
      * @param context Application context.
-     * @param label The toast label to be displayed by the plug-in.
+     * @param action  Action to execute
+     * @param label   Label of alarm to delete
      * @return A plug-in bundle.
      */
     @NonNull
     public static Bundle generateBundle(@NonNull final Context context,
                                         @NonNull final int action,
-                                        @NonNull final String label,
-                                        @NonNull final String time) {
+                                        @NonNull final String label) {
         assertNotNull(context, "context"); //$NON-NLS-1$
         assertNotNull(action, "action");
-        assertNotEmpty(label, "label");
-        assertNotEmpty(label, "time");
+        assertNotNull(label, "label");
 
         final Bundle result = new Bundle();
         result.putInt(BUNDLE_EXTRA_INT_VERSION_CODE, AppBuildInfo.getVersionCode(context));
         result.putInt(BUNDLE_EXTRA_INT_ACTION, action);
         result.putString(BUNDLE_EXTRA_STRING_LABEL, label);
-        result.putString(BUNDLE_EXTRA_STRING_TIME, time);
 
         return result;
     }
@@ -133,8 +130,8 @@ public final class PluginBundleValues {
      * @return The message inside the plug-in bundle.
      */
     @NonNull
-    public static int getAction(@NonNull final Bundle bundle) {
-        return bundle.getInt(BUNDLE_EXTRA_INT_ACTION);
+    public static Actions getAction(@NonNull final Bundle bundle) {
+        return (Actions) bundle.getSerializable(BUNDLE_EXTRA_INT_ACTION);
     }
 
     /**
@@ -144,23 +141,5 @@ public final class PluginBundleValues {
     @NonNull
     public static String getLabel(@NonNull final Bundle bundle) {
         return bundle.getString(BUNDLE_EXTRA_STRING_LABEL);
-    }
-
-    /**
-     * @param bundle A valid plug-in bundle.
-     * @return The message inside the plug-in bundle.
-     */
-    @NonNull
-    public static String getTime(@NonNull final Bundle bundle) {
-        return bundle.getString(BUNDLE_EXTRA_STRING_TIME);
-    }
-
-    /**
-     * Private constructor prevents instantiation
-     *
-     * @throws UnsupportedOperationException because this class cannot be instantiated.
-     */
-    private PluginBundleValues() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
     }
 }

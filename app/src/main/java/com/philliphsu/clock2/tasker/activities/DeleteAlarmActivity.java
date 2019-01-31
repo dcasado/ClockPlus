@@ -27,6 +27,7 @@ import android.widget.EditText;
 import com.philliphsu.clock2.R;
 import com.philliphsu.clock2.tasker.Actions;
 import com.philliphsu.clock2.tasker.TaskerPlugin;
+import com.philliphsu.clock2.tasker.bundles.DeleteAlarmBundleValues;
 import com.philliphsu.clock2.tasker.bundles.PluginBundleValues;
 import com.twofortyfouram.locale.sdk.client.ui.activity.AbstractAppCompatPluginActivity;
 import com.twofortyfouram.log.Lumberjack;
@@ -40,7 +41,7 @@ public final class DeleteAlarmActivity extends AbstractAppCompatPluginActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_tasker);
+        setContentView(R.layout.activity_tasker_delete_alarm);
 
         /*
          * To help the user keep context, the title shows the host's name and the subtitle
@@ -67,10 +68,8 @@ public final class DeleteAlarmActivity extends AbstractAppCompatPluginActivity {
     @Override
     public void onPostCreateWithPreviousResult(@NonNull final Bundle previousBundle,
                                                @NonNull final String previousBlurb) {
-        final String message = PluginBundleValues.getLabel(previousBundle);
-        ((EditText) findViewById(R.id.text_label)).setText(message);
-        final String time = PluginBundleValues.getTime(previousBundle);
-        ((EditText) findViewById(R.id.text_time)).setText(time);
+        final String label = PluginBundleValues.getLabel(previousBundle);
+        ((EditText) findViewById(R.id.activity_tasker_delete_alarm_edit_text_label)).setText(label);
     }
 
     @Override
@@ -84,10 +83,10 @@ public final class DeleteAlarmActivity extends AbstractAppCompatPluginActivity {
         Bundle result = null;
 
         final Actions action = Actions.DELETE;
-        final String label = ((EditText) findViewById(R.id.text_label)).getText().toString();
-        final String time = ((EditText) findViewById(R.id.text_time)).getText().toString();
-        if (!TextUtils.isEmpty(label) && !TextUtils.isEmpty(time)) {
-            result = PluginBundleValues.generateBundle(getApplicationContext(), action, label, time);
+        final EditText editText = findViewById(R.id.activity_tasker_delete_alarm_edit_text_label);
+        final String label = editText.getText().toString();
+        if (!TextUtils.isEmpty(label)) {
+            result = DeleteAlarmBundleValues.generateBundle(getApplicationContext(), action.getValue(), label);
 
             if (TaskerPlugin.Setting.hostSupportsOnFireVariableReplacement(this)) {
                 TaskerPlugin.Setting.setVariableReplaceKeys(result, new String[]{
@@ -103,16 +102,16 @@ public final class DeleteAlarmActivity extends AbstractAppCompatPluginActivity {
     @NonNull
     @Override
     public String getResultBlurb(@NonNull final Bundle bundle) {
-        final String label = PluginBundleValues.getLabel(bundle);
+        final String alarmId = DeleteAlarmBundleValues.getLabel(bundle);
 
         final int maxBlurbLength = getResources().getInteger(
                 R.integer.com_twofortyfouram_locale_sdk_client_maximum_blurb_length);
 
-        if (label.length() > maxBlurbLength) {
-            return label.substring(0, maxBlurbLength);
+        if (alarmId.length() > maxBlurbLength) {
+            return alarmId.substring(0, maxBlurbLength);
         }
 
-        return label;
+        return alarmId;
     }
 
     @Override

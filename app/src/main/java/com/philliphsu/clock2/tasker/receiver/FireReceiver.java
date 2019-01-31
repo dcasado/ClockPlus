@@ -21,10 +21,16 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philliphsu.clock2.alarms.Alarm;
+import com.philliphsu.clock2.alarms.data.AlarmCursor;
+import com.philliphsu.clock2.alarms.data.AlarmsTable;
+import com.philliphsu.clock2.alarms.data.AlarmsTableManager;
 import com.philliphsu.clock2.alarms.data.AsyncAlarmsTableUpdateHandler;
 import com.philliphsu.clock2.alarms.misc.AlarmController;
+import com.philliphsu.clock2.tasker.bundles.DeleteAlarmBundleValues;
 import com.philliphsu.clock2.tasker.bundles.PluginBundleValues;
 import com.twofortyfouram.locale.sdk.client.receiver.AbstractPluginSettingReceiver;
+
+import static com.philliphsu.clock2.util.Preconditions.checkNotNull;
 
 public final class FireReceiver extends AbstractPluginSettingReceiver {
 
@@ -32,7 +38,7 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
 
     @Override
     protected boolean isBundleValid(@NonNull final Bundle bundle) {
-        return PluginBundleValues.isBundleValid(bundle);
+        return PluginBundleValues.isBundleValid(bundle) || DeleteAlarmBundleValues.isBundleValid(bundle);
     }
 
     @Override
@@ -42,15 +48,28 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
 
     @Override
     protected void firePluginSetting(@NonNull final Context context, @NonNull final Bundle bundle) {
+        int action = bundle.getInt(PluginBundleValues.BUNDLE_EXTRA_INT_ACTION);
+        String label = bundle.getString(PluginBundleValues.BUNDLE_EXTRA_STRING_LABEL);
 
+        switch (action) {
+            case 0:
+                String[] time = bundle.getString(PluginBundleValues.BUNDLE_EXTRA_STRING_TIME).split("\\.");
+                int hour = Integer.valueOf(time[0]);
+                int minutes = Integer.valueOf(time[1]);
+                createAlarm(context, label, hour, minutes);
+                break;
+            case 1:
+                deleteAlarm(context, label);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void createAlarm(Context context, String label, int hour, int minutes) {
         AlarmController mAlarmController = new AlarmController(context, null);
         AsyncAlarmsTableUpdateHandler mAsyncUpdateHandler;
         mAsyncUpdateHandler = new AsyncAlarmsTableUpdateHandler(context, null, null, mAlarmController);
-
-        String label = bundle.getString(PluginBundleValues.BUNDLE_EXTRA_STRING_LABEL);
-        String[] time = bundle.getString(PluginBundleValues.BUNDLE_EXTRA_STRING_TIME).split("\\.");
-        int hour = Integer.valueOf(time[0]);
-        int minutes = Integer.valueOf(time[1]);
 
         Alarm alarm = Alarm.builder()
                 .label(label)
@@ -59,10 +78,21 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
                 .build();
         alarm.setEnabled(true);
 
-//        mAlarmController.scheduleAlarm(alarm, false);
+        Log.d(TAG, "Alarm created");
+        mAsyncUpdateHandler.asyncInsert(alarm);
+    }
 
-        Log.d("TASKER_INT", "Alarm created");
-       // mAsyncUpdateHandler.asyncInsert(alarm);
+    private void deleteAlarm(Context context, String label) {
+        Log.d(TAG, "Alarm to be deleted: " + label);
+        AsyncAlarmsTableUpdateHandler mAsyncUpdateHandler;
+        AlarmController mAlarmController = new AlarmController(context, null);
+        mAsyncUpdateHandler = new AsyncAlarmsTableUpdateHandler(context, null, null, mAlarmController);
+
+        String where = AlarmsTable.COLUMN_LABEL + " = \"" + label + "\"";
+        AlarmCursor cursor = new AlarmsTableManager(context).queryItems(where, "1");
+        cursor.moveToFirst();
+        Alarm alarm = checkNotNull(cursor.getItem());
+
         mAsyncUpdateHandler.asyncDelete(alarm);
     }
 }

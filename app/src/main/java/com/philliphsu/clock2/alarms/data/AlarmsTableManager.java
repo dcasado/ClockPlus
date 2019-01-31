@@ -63,7 +63,7 @@ public class AlarmsTableManager extends DatabaseTableManager<Alarm> {
     }
 
     @Override
-    protected AlarmCursor queryItems(String where, String limit) {
+    public AlarmCursor queryItems(String where, String limit) {
         return wrapInAlarmCursor(super.queryItems(where, limit));
     }
 
