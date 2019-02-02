@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2017 Phillip Hsu
   ~
   ~ This file is part of ClockPlus.
@@ -18,12 +17,12 @@
   ~ along with ClockPlus.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<manifest package="com.philliphsu.clock2"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.philliphsu.clock2">
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -36,17 +35,16 @@
             android:label="@string/app_name"
             android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <receiver
             android:name=".alarms.background.UpcomingAlarmReceiver"
             android:enabled="true"
-            android:exported="false">
-        </receiver>
+            android:exported="false"></receiver>
 
         <activity
             android:name=".settings.SettingsActivity"
@@ -54,28 +52,26 @@
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.philliphsu.clock2.MainActivity"/>
+                android:value="com.philliphsu.clock2.MainActivity" />
         </activity>
 
         <receiver
             android:name=".alarms.background.PendingAlarmScheduler"
             android:enabled="true"
-            android:exported="false">
-        </receiver>
+            android:exported="false"></receiver>
         <receiver
             android:name=".alarms.background.OnBootUpReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <service
             android:name=".alarms.background.OnBootUpAlarmScheduler"
             android:enabled="true"
-            android:exported="false">
-        </service>
+            android:exported="false"></service>
 
         <activity
             android:name=".timers.EditTimerActivity"
@@ -84,46 +80,40 @@
             android:windowSoftInputMode="adjustNothing">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.philliphsu.clock2.MainActivity"/>
+                android:value="com.philliphsu.clock2.MainActivity" />
         </activity>
 
         <service
             android:name=".timers.TimerNotificationService"
-            android:exported="false">
-        </service>
+            android:exported="false"></service>
 
         <activity
             android:name=".ringtone.TimesUpActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_ringtone"
             android:launchMode="singleTask"
-            android:taskAffinity="com.philliphsu.clock2.RingtoneActivity"
-            android:screenOrientation="nosensor">
-        </activity>
+            android:screenOrientation="nosensor"
+            android:taskAffinity="com.philliphsu.clock2.RingtoneActivity"></activity>
         <activity
             android:name=".ringtone.AlarmActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_ringtone"
             android:launchMode="singleTask"
-            android:taskAffinity="com.philliphsu.clock2.RingtoneActivity"
-            android:screenOrientation="nosensor">
-        </activity>
+            android:screenOrientation="nosensor"
+            android:taskAffinity="com.philliphsu.clock2.RingtoneActivity"></activity>
 
         <service
             android:name=".ringtone.playback.AlarmRingtoneService"
             android:enabled="true"
-            android:exported="false">
-        </service>
+            android:exported="false"></service>
         <service
             android:name=".ringtone.playback.TimerRingtoneService"
             android:enabled="true"
-            android:exported="false">
-        </service>
+            android:exported="false"></service>
         <service
             android:name=".stopwatch.StopwatchNotificationService"
             android:enabled="true"
-            android:exported="false">
-        </service>
+            android:exported="false"></service>
 
         <!-- Tasker -->
         <activity
@@ -132,8 +122,7 @@
             android:label="@string/create_alarm_activity"
             android:theme="@style/Theme.AppCompat"
             android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
+            android:windowSoftInputMode="adjustResize"></activity>
 
         <activity-alias
             android:name="com.twofortyfouram.locale.example.setting.toast.ui.activity.PluginActivity"
@@ -143,28 +132,27 @@
             android:targetActivity=".tasker.activities.CreateAlarmActivity">
             <!-- this Intent filter allows the plug-in to be discovered by the host. -->
             <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING"/>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
             </intent-filter>
         </activity-alias>
 
         <activity
             android:name=".tasker.activities.DeleteAlarmActivity"
             android:exported="false"
-            android:label="@string/detele_alarm_activity"
+            android:label="@string/delete_alarm_activity"
             android:theme="@style/Theme.AppCompat"
             android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
+            android:windowSoftInputMode="adjustResize"></activity>
 
         <activity-alias
             android:name="com.twofortyfouram.locale.example.setting.toast.ui.activity.DeleteAlarmActivity"
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
-            android:label="@string/detele_alarm_activity"
+            android:label="@string/delete_alarm_activity"
             android:targetActivity=".tasker.activities.DeleteAlarmActivity">
             <!-- this Intent filter allows the plug-in to be discovered by the host. -->
             <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING"/>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
             </intent-filter>
         </activity-alias>
 
@@ -183,7 +171,7 @@
 
             <!-- this Intent filter allows the plug-in to discovered by the host. -->
             <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING"/>
+                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
             </intent-filter>
         </receiver>
     </application>

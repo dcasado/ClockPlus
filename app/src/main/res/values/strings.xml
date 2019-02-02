@@ -233,10 +233,11 @@
     <string name="negative_duration">\u2212<xliff:g id="time" example="1:14">%1$s</xliff:g></string>
 
     <!-- ======================================= TASKER ======================================== -->
+
     <string name="create_alarm_activity">Create alarm</string>
-    <string name="detele_alarm_activity">Delete alarm</string>
-    <string name="message_hint">Label</string>
+    <string name="delete_alarm_activity">Delete alarm</string>
     <string name="menu_discard_changes">Discard changes</string>
-    <string name="time_hint">Time</string>
+    <string name="time">Time</string>
+
     <!-- ======================================================================================= -->
 </resources>

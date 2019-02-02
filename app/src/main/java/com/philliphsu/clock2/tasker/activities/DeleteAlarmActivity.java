@@ -60,7 +60,7 @@ public final class DeleteAlarmActivity extends AbstractAppCompatPluginActivity {
             setTitle(callingApplicationLabel);
         }
 
-        getSupportActionBar().setSubtitle(R.string.app_name);
+        getSupportActionBar().setSubtitle(R.string.delete_alarm_activity);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -68,7 +68,7 @@ public final class DeleteAlarmActivity extends AbstractAppCompatPluginActivity {
     @Override
     public void onPostCreateWithPreviousResult(@NonNull final Bundle previousBundle,
                                                @NonNull final String previousBlurb) {
-        final String label = PluginBundleValues.getLabel(previousBundle);
+        final String label = DeleteAlarmBundleValues.getLabel(previousBundle);
         ((EditText) findViewById(R.id.activity_tasker_delete_alarm_edit_text_label)).setText(label);
     }
 

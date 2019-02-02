@@ -59,7 +59,7 @@ public final class CreateAlarmActivity extends AbstractAppCompatPluginActivity {
             setTitle(callingApplicationLabel);
         }
 
-        getSupportActionBar().setSubtitle(R.string.app_name);
+        getSupportActionBar().setSubtitle(R.string.create_alarm_activity);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
