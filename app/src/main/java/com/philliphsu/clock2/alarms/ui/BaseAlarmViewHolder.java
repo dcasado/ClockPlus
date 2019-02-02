@@ -19,6 +19,7 @@
 
 package com.philliphsu.clock2.alarms.ui;
 
+import android.app.TimePickerDialog;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.IdRes;
@@ -34,6 +35,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.philliphsu.clock2.R;
 import com.philliphsu.clock2.alarms.Alarm;
@@ -44,7 +46,6 @@ import com.philliphsu.clock2.dialogs.AddLabelDialogController;
 import com.philliphsu.clock2.dialogs.TimePickerDialogController;
 import com.philliphsu.clock2.list.BaseViewHolder;
 import com.philliphsu.clock2.list.OnListItemInteractionListener;
-import com.philliphsu.bottomsheetpickers.time.BottomSheetTimePickerDialog.OnTimeSetListener;
 import com.philliphsu.clock2.timepickers.Utils;
 import com.philliphsu.clock2.util.FragmentTagUtils;
 import com.philliphsu.clock2.util.TimeTextUtils;
@@ -109,9 +110,9 @@ public abstract class BaseAlarmViewHolder extends BaseViewHolder<Alarm> {
             }
         );
         mTimePickerDialogController = new TimePickerDialogController(mFragmentManager, getContext(),
-            new OnTimeSetListener() {
+            new TimePickerDialog.OnTimeSetListener() {
                 @Override
-                public void onTimeSet(ViewGroup viewGroup, int hourOfDay, int minute) {
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     final Alarm oldAlarm = getAlarm();
                     // I don't think we need this; scheduling a new alarm that is considered
                     // equal to a previous alarm will overwrite the previous alarm.

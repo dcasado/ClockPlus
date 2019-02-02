@@ -18,8 +18,7 @@
   ~ along with ClockPlus.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <!--<PreferenceCategory android:title="@string/title_category_world_clock">
         <ListPreference
             android:key="@string/key_show_time_offsets_from"
@@ -46,14 +45,6 @@
         </Preference>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/title_category_alarms">
-        <ListPreference
-            android:key="@string/key_time_picker_style"
-            android:title="@string/title_time_picker_style"
-            android:dialogTitle="@string/title_time_picker_style"
-            android:entries="@array/array_time_picker_styles"
-            android:entryValues="@array/array_time_picker_styles"
-            android:defaultValue="@string/grid_selector"
-            android:summary="%s"/>
         <ListPreference
             android:key="@string/key_silence_after"
             android:title="@string/title_silence_after"

@@ -19,11 +19,13 @@
 
 package com.philliphsu.clock2.chronometer;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.CallSuper;
 import android.support.annotation.DrawableRes;
@@ -55,6 +57,8 @@ public abstract class ChronometerNotificationService extends Service {
     private final SimpleArrayMap<Long, NotificationCompat.Builder> mNoteBuilders = new SimpleArrayMap<>();
     private final SimpleArrayMap<Long, ChronometerNotificationThread> mThreads = new SimpleArrayMap<>();
     private final SimpleArrayMap<Long, ChronometerDelegate> mDelegates = new SimpleArrayMap<>();
+
+    private final String CHANNEL_ID = "com.philliphsu.clock2.CHANNEL_1";
 
     /**
      * @return the icon for the notification
@@ -162,13 +166,31 @@ public abstract class ChronometerNotificationService extends Service {
         // instead of telling the thread to do it for us.
         if (mNoteBuilders.containsKey(id))
             return;
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+
+        createNotificationChannel();
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(getSmallIcon())
                 .setShowWhen(false)
                 .setOngoing(true)
                 .setContentIntent(getContentIntent());
         mNoteBuilders.put(id, builder);
         registerNewChronometer(id);
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     // Didn't work!

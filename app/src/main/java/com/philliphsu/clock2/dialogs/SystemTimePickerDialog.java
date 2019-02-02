@@ -26,19 +26,17 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.widget.TimePicker;
 
-import com.philliphsu.bottomsheetpickers.time.BottomSheetTimePickerDialog;
-
 /**
  * Created by Phillip Hsu on 9/28/2016.
  */
 public class SystemTimePickerDialog extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
-    private BottomSheetTimePickerDialog.OnTimeSetListener mListener;
+    private TimePickerDialog.OnTimeSetListener mListener;
     private int mInitialHourOfDay;
     private int mInitialMinute;
     private boolean mIs24HourMode;
 
-    public static SystemTimePickerDialog newInstance(BottomSheetTimePickerDialog.OnTimeSetListener l,
+    public static SystemTimePickerDialog newInstance(TimePickerDialog.OnTimeSetListener l,
                                                      int hourOfDay, int minute, boolean is24HourMode) {
         SystemTimePickerDialog dialog = new SystemTimePickerDialog();
         dialog.mListener = l;
@@ -48,7 +46,7 @@ public class SystemTimePickerDialog extends DialogFragment implements TimePicker
         return dialog;
     }
 
-    public void setOnTimeSetListener(BottomSheetTimePickerDialog.OnTimeSetListener listener) {
+    public void setOnTimeSetListener(TimePickerDialog.OnTimeSetListener listener) {
         mListener = listener;
     }
 

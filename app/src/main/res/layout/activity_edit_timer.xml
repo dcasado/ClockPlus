@@ -67,7 +67,8 @@
 
             <EditText
                 android:id="@+id/hour"
-                style="@style/TimerText.EditField"/>
+                style="@style/TimerText.EditField"
+                android:focusable="auto" />
 
             <TextView
                 android:id="@+id/hour_label"

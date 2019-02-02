@@ -19,6 +19,7 @@
 
 package com.philliphsu.clock2.alarms.ui;
 
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
@@ -27,8 +28,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TimePicker;
 
-import com.philliphsu.bottomsheetpickers.time.BottomSheetTimePickerDialog;
 import com.philliphsu.clock2.R;
 import com.philliphsu.clock2.alarms.Alarm;
 import com.philliphsu.clock2.alarms.data.AlarmCursor;
@@ -42,7 +43,7 @@ import com.philliphsu.clock2.util.DelayedSnackbarHandler;
 import static com.philliphsu.clock2.util.FragmentTagUtils.makeTag;
 
 public class AlarmsFragment extends RecyclerViewFragment<Alarm, BaseAlarmViewHolder, AlarmCursor,
-        AlarmsCursorAdapter> implements BottomSheetTimePickerDialog.OnTimeSetListener {
+        AlarmsCursorAdapter> implements TimePickerDialog.OnTimeSetListener {
     private static final String TAG = "AlarmsFragment";
     private static final String KEY_EXPANDED_POSITION = "expanded_position";
     public static final String EXTRA_SCROLL_TO_ALARM_ID = "com.philliphsu.clock2.alarms.extra.SCROLL_TO_ALARM_ID";
@@ -189,7 +190,7 @@ public class AlarmsFragment extends RecyclerViewFragment<Alarm, BaseAlarmViewHol
     }
 
     @Override
-    public void onTimeSet(ViewGroup viewGroup, int hourOfDay, int minute) {
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // When we request the Builder, default values are provided for us,
         // which is why we don't have to set the ringtone, label, etc.
         Alarm alarm = Alarm.builder()
