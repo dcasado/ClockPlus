@@ -23,7 +23,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -49,7 +48,7 @@ import static java.util.concurrent.TimeUnit.HOURS;
 
 /**
  * Created by Phillip Hsu on 7/10/2016.
- *
+ * <p>
  * API to control alarm states and update the UI.
  * TODO: Rename to AlarmStateHandler? AlarmStateController?
  */
@@ -62,8 +61,7 @@ public final class AlarmController {
     private final AlarmsTableManager mTableManager;
 
     /**
-     *
-     * @param context the Context from which the application context will be requested
+     * @param context        the Context from which the application context will be requested
      * @param snackbarAnchor an optional anchor for a Snackbar to anchor to
      */
     public AlarmController(Context context, View snackbarAnchor) {
@@ -76,7 +74,7 @@ public final class AlarmController {
      * Schedules the alarm with the {@link AlarmManager}.
      * If {@code alarm.}{@link Alarm#isEnabled() isEnabled()}
      * returns false, this does nothing and returns immediately.
-     * 
+     * <p>
      * If there is already an alarm for this Intent scheduled (with the equality of two
      * intents being defined by filterEquals(Intent)), then it will be removed and replaced
      * by this one. For most of our uses, the relevant criteria for equality will be the
@@ -97,19 +95,10 @@ public final class AlarmController {
 
         final long ringAt = alarm.isSnoozed() ? alarm.snoozingUntil() : alarm.ringsAt();
         final PendingIntent alarmIntent = alarmIntent(alarm, false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            PendingIntent showIntent = ContentIntentUtils.create(mAppContext, MainActivity.PAGE_ALARMS, alarm.getId());
-            AlarmManager.AlarmClockInfo info = new AlarmManager.AlarmClockInfo(ringAt, showIntent);
-            am.setAlarmClock(info, alarmIntent);
-        } else {
-            // WAKEUP alarm types wake the CPU up, but NOT the screen;
-            // you would handle that yourself by using a wakelock, etc..
-            am.setExact(AlarmManager.RTC_WAKEUP, ringAt, alarmIntent);
-            // Show alarm in the status bar
-            Intent alarmChanged = new Intent("android.intent.action.ALARM_CHANGED");
-            alarmChanged.putExtra("alarmSet", true/*enabled*/);
-            mAppContext.sendBroadcast(alarmChanged);
-        }
+
+        PendingIntent showIntent = ContentIntentUtils.create(mAppContext, MainActivity.PAGE_ALARMS, alarm.getId());
+        AlarmManager.AlarmClockInfo info = new AlarmManager.AlarmClockInfo(ringAt, showIntent);
+        am.setAlarmClock(info, alarmIntent);
 
         final int hoursToNotifyInAdvance = AlarmPreferences.hoursBeforeUpcoming(mAppContext);
         if (hoursToNotifyInAdvance > 0 || alarm.isSnoozed()) {
@@ -129,6 +118,7 @@ public final class AlarmController {
 
     /**
      * Cancel the alarm. This does NOT check if you previously scheduled the alarm.
+     *
      * @param rescheduleIfRecurring True if the alarm should be rescheduled after cancelling.
      *                              This param will only be considered if the alarm has recurrence
      *                              and is enabled.
@@ -141,12 +131,6 @@ public final class AlarmController {
         if (pi != null) {
             am.cancel(pi);
             pi.cancel();
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                // Remove alarm in the status bar
-                Intent alarmChanged = new Intent("android.intent.action.ALARM_CHANGED");
-                alarmChanged.putExtra("alarmSet", false/*enabled*/);
-                mAppContext.sendBroadcast(alarmChanged);
-            }
         }
 
         pi = notifyUpcomingAlarmIntent(alarm, true);
