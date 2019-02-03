@@ -19,7 +19,10 @@
 
 package com.philliphsu.clock2;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.CallSuper;
@@ -39,14 +42,24 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
+    public static final String CHANNEL_ID_UPCOMING = "com.philliphsu.clock2.CHANNEL_UPCOMING";
+    public static final String CHANNEL_ID_MISSED = "com.philliphsu.clock2.CHANNEL_MISSED";
+    public static final String CHANNEL_ID_STOPWATCH = "com.philliphsu.clock2.CHANNEL_STOPWATCH";
+    public static final String CHANNEL_ID_TIMES_UP = "com.philliphsu.clock2.CHANNEL_TIMES_UP";
+    public static final String CHANNEL_ID_RINGING = "com.philliphsu.clock2.CHANNEL_RINGING";
+    public static final String CHANNEL_ID_EXPIRED = "com.philliphsu.clock2.CHANNEL_EXPIRED";
+
     @Nullable
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
     private Menu mMenu;
 
-    @LayoutRes protected abstract int layoutResId();
-    @MenuRes   protected abstract int menuResId();
+    @LayoutRes
+    protected abstract int layoutResId();
+
+    @MenuRes
+    protected abstract int menuResId();
 
     @CallSuper
     @Override
@@ -82,6 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 ab.setDisplayShowTitleEnabled(isDisplayShowTitleEnabled());
             }
         }
+        createAllNotificationChannels();
     }
 
     @Override
@@ -104,5 +118,28 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected boolean isDisplayShowTitleEnabled() {
         return false;
+    }
+
+    private void createAllNotificationChannels() {
+        createNotificationChannel(CHANNEL_ID_UPCOMING, getString(R.string.upcoming_alarm_channel_name), getString(R.string.upcoming_alarm_channel_description));
+        createNotificationChannel(CHANNEL_ID_MISSED, getString(R.string.missed_alarm_channel_name), getString(R.string.missed_alarm_channel_description));
+        createNotificationChannel(CHANNEL_ID_STOPWATCH, getString(R.string.stopwatch_channel_name), getString(R.string.stopwatch_channel_description));
+        createNotificationChannel(CHANNEL_ID_TIMES_UP, getString(R.string.times_up_channel_name), getString(R.string.times_up_channel_description));
+        createNotificationChannel(CHANNEL_ID_RINGING, getString(R.string.ringing_alarm_channel_name), getString(R.string.ringing_alarm_channel_description));
+        createNotificationChannel(CHANNEL_ID_EXPIRED, getString(R.string.timer_expired_channel_name), getString(R.string.timer_expired_channel_description));
+    }
+
+    private void createNotificationChannel(String channelID, String channelName, String channelDescription) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(channelID, channelName, importance);
+            channel.setDescription(channelDescription);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

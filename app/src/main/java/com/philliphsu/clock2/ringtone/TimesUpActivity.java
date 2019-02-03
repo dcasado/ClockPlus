@@ -28,14 +28,15 @@ import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.view.ViewGroup;
 
+import com.philliphsu.clock2.BaseActivity;
+import com.philliphsu.clock2.R;
 import com.philliphsu.clock2.ringtone.playback.RingtoneService;
 import com.philliphsu.clock2.ringtone.playback.TimerRingtoneService;
-import com.philliphsu.clock2.timers.ui.CountdownChronometer;
+import com.philliphsu.clock2.timers.Timer;
 import com.philliphsu.clock2.timers.TimerController;
 import com.philliphsu.clock2.timers.TimerNotificationService;
 import com.philliphsu.clock2.timers.data.AsyncTimersTableUpdateHandler;
-import com.philliphsu.clock2.R;
-import com.philliphsu.clock2.timers.Timer;
+import com.philliphsu.clock2.timers.ui.CountdownChronometer;
 
 public class TimesUpActivity extends RingtoneActivity<Timer> {
     private static final String TAG = "TimesUpActivity";
@@ -139,7 +140,7 @@ public class TimesUpActivity extends RingtoneActivity<Timer> {
     }
 
     private void postExpiredTimerNote() {
-        Notification note = new NotificationCompat.Builder(this)
+        Notification note = new NotificationCompat.Builder(this, BaseActivity.CHANNEL_ID_EXPIRED)
                 .setContentTitle(getString(R.string.timer_expired))
                 .setContentText(getRingingObject().label())
                 .setSmallIcon(R.drawable.ic_timer_24dp)

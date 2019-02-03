@@ -144,7 +144,7 @@ public class AlarmActivity extends RingtoneActivity<Alarm> {
     private void postMissedAlarmNote() {
         String alarmTime = TimeFormatUtils.formatTime(this,
                 getRingingObject().hour(), getRingingObject().minutes());
-        Notification note = new NotificationCompat.Builder(this)
+        Notification note = new NotificationCompat.Builder(this, CHANNEL_ID_MISSED)
                 .setContentTitle(getString(R.string.missed_alarm))
                 .setContentText(alarmTime)
                 .setSmallIcon(R.drawable.ic_alarm_24dp)

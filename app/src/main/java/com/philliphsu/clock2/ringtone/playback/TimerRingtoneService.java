@@ -27,6 +27,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 
+import com.philliphsu.clock2.BaseActivity;
 import com.philliphsu.clock2.R;
 import com.philliphsu.clock2.timers.Timer;
 import com.philliphsu.clock2.timers.TimerController;
@@ -97,7 +98,7 @@ public class TimerRingtoneService extends RingtoneService<Timer> {
         // Since there can only be one Timer at a time for this Activity/Service pair,
         // we don't need to specify a request code.
 //        PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
-        return new NotificationCompat.Builder(this)
+        return new NotificationCompat.Builder(this, BaseActivity.CHANNEL_ID_TIMES_UP)
                 .setContentTitle(title)
                 .setContentText(getString(R.string.times_up))
                 .setSmallIcon(R.drawable.ic_timer_24dp)

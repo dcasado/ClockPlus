@@ -241,6 +241,22 @@
 
     <!-- ======================================================================================= -->
     
-    <string name="channel_name">Stopwatch</string>
-    <string name="channel_description">Show stopwatch notifications</string>
+    <string name="stopwatch_channel_name">Stopwatch</string>
+    <string name="stopwatch_channel_description">Show stopwatch notifications</string>
+
+    <string name="upcoming_alarm_channel_name">Upcoming alarms</string>
+    <string name="upcoming_alarm_channel_description">Show upcoming alarms notifications</string>
+
+    <string name="times_up_channel_name">Time\'s up notifications</string>
+    <string name="times_up_channel_description">Show time\'s up notifications</string>
+
+    <string name="missed_alarm_channel_name">Missed alarms notifications</string>
+    <string name="missed_alarm_channel_description">Show missed alarms notifications</string>
+
+    <string name="ringing_alarm_channel_name">Ringing alarm notifications</string>
+    <string name="ringing_alarm_channel_description">Show ringing alarm notifications</string>
+
+    <string name="timer_expired_channel_name">Timer expired notifications</string>
+    <string name="timer_expired_channel_description">Show timer expired notifications</string>
+
 </resources>

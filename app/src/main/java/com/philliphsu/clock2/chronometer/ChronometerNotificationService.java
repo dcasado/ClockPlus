@@ -19,13 +19,11 @@
 
 package com.philliphsu.clock2.chronometer;
 
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.CallSuper;
 import android.support.annotation.DrawableRes;
@@ -34,6 +32,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.util.SimpleArrayMap;
 
+import com.philliphsu.clock2.BaseActivity;
 import com.philliphsu.clock2.R;
 
 /**
@@ -44,11 +43,6 @@ public abstract class ChronometerNotificationService extends Service {
     public static final String ACTION_STOP = "com.philliphsu.clock2.timers.action.STOP";
 
     public static final String EXTRA_ACTION_ID = "com.philliphsu.clock2.extra.ID";
-
-    // TODO: I think we'll need a collection of builders too. However, we can have a common immutable
-    // builder instance with attributes that all timer notifications will have.
-//    private NotificationCompat.Builder mNoteBuilder;
-    private NotificationManager mNotificationManager;
     /**
      * The default capacity of an array map is 0.
      * The minimum amount by which the capacity of a ArrayMap will increase
@@ -57,8 +51,10 @@ public abstract class ChronometerNotificationService extends Service {
     private final SimpleArrayMap<Long, NotificationCompat.Builder> mNoteBuilders = new SimpleArrayMap<>();
     private final SimpleArrayMap<Long, ChronometerNotificationThread> mThreads = new SimpleArrayMap<>();
     private final SimpleArrayMap<Long, ChronometerDelegate> mDelegates = new SimpleArrayMap<>();
-
-    private final String CHANNEL_ID = "com.philliphsu.clock2.CHANNEL_1";
+    // TODO: I think we'll need a collection of builders too. However, we can have a common immutable
+    // builder instance with attributes that all timer notifications will have.
+//    private NotificationCompat.Builder mNoteBuilder;
+    private NotificationManager mNotificationManager;
 
     /**
      * @return the icon for the notification
@@ -102,6 +98,7 @@ public abstract class ChronometerNotificationService extends Service {
      * The intent received in {@link #onStartCommand(Intent, int, int)}
      * has no {@link Intent#getAction() action} set. At this point, you
      * should configure the notification to be displayed.
+     *
      * @param intent
      * @param flags
      * @param startId
@@ -115,7 +112,8 @@ public abstract class ChronometerNotificationService extends Service {
     /**
      * This will be called if the command in {@link #onStartCommand(Intent, int, int)}
      * has an action that your subclass defines.
-     * @param action Your custom action.
+     *
+     * @param action  Your custom action.
      * @param startId
      */
     protected abstract void handleAction(@NonNull String action, Intent intent, int flags, int startId);
@@ -167,30 +165,13 @@ public abstract class ChronometerNotificationService extends Service {
         if (mNoteBuilders.containsKey(id))
             return;
 
-        createNotificationChannel();
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, BaseActivity.CHANNEL_ID_STOPWATCH)
                 .setSmallIcon(getSmallIcon())
                 .setShowWhen(false)
                 .setOngoing(true)
                 .setContentIntent(getContentIntent());
         mNoteBuilders.put(id, builder);
         registerNewChronometer(id);
-    }
-
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.channel_name);
-            String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
     }
 
     // Didn't work!
@@ -253,6 +234,7 @@ public abstract class ChronometerNotificationService extends Service {
      * If there is a thread currently running, then this will push any notification updates
      * you might have configured in the Builder and then call the thread's {@link
      * ChronometerNotificationThread#quit() quit()}.
+     *
      * @param id the id associated with the thread to quit
      */
     public void quitCurrentThread(long id) {
@@ -276,6 +258,7 @@ public abstract class ChronometerNotificationService extends Service {
      * Instantiates a new HandlerThread and calls its {@link Thread#start() start()}.
      * The calling thread will be blocked until the HandlerThread created here finishes
      * initializing its looper.
+     *
      * @param id
      * @param base the new base time of the chronometer
      */
@@ -324,10 +307,11 @@ public abstract class ChronometerNotificationService extends Service {
 
     /**
      * Helper method to add the start/pause action to the notification's builder.
+     *
      * @param running whether the chronometer is running
-     * @param id The id of the notification that the action should be added to.
-     *           Will be used as an integer request code to create the PendingIntent that
-     *           is fired when this action is clicked.
+     * @param id      The id of the notification that the action should be added to.
+     *                Will be used as an integer request code to create the PendingIntent that
+     *                is fired when this action is clicked.
      */
     protected final void addStartPauseAction(boolean running, long id) {
         addAction(ACTION_START_PAUSE,
@@ -338,6 +322,7 @@ public abstract class ChronometerNotificationService extends Service {
 
     /**
      * Helper method to add the stop action to the notification's builder.
+     *
      * @param id The id of the notification that the action should be added to.
      *           Will be used as an integer request code to create the PendingIntent that
      *           is fired when this action is clicked.
@@ -348,6 +333,7 @@ public abstract class ChronometerNotificationService extends Service {
 
     /**
      * Clear the notification builder's set actions.
+     *
      * @param id the id associated with the builder whose actions should be cleared
      */
     protected final void clearActions(long id) {
@@ -387,6 +373,7 @@ public abstract class ChronometerNotificationService extends Service {
 
     /**
      * Adds the specified action to the notification's Builder.
+     *
      * @param id The id of the notification that the action should be added to.
      *           Will be used as an integer request code to create the PendingIntent that
      *           is fired when this action is clicked.

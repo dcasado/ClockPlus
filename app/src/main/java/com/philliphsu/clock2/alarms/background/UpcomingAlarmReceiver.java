@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import com.philliphsu.clock2.BaseActivity;
 import com.philliphsu.clock2.MainActivity;
 import com.philliphsu.clock2.R;
 import com.philliphsu.clock2.alarms.Alarm;
@@ -38,13 +39,12 @@ import static com.philliphsu.clock2.util.TimeFormatUtils.formatTime;
 
 // TODO: Consider registering this locally instead of in the manifest.
 public class UpcomingAlarmReceiver extends BroadcastReceiver {
-    private static final String TAG = "UpcomingAlarmReceiver";
-    /*TOneverDO: not private*/
-    private static final String ACTION_DISMISS_NOW = "com.philliphsu.clock2.action.DISMISS_NOW";
-
     public static final String ACTION_CANCEL_NOTIFICATION = "com.philliphsu.clock2.action.CANCEL_NOTIFICATION";
     public static final String ACTION_SHOW_SNOOZING = "com.philliphsu.clock2.action.SHOW_SNOOZING";
     public static final String EXTRA_ALARM = "com.philliphsu.clock2.extra.ALARM";
+    private static final String TAG = "UpcomingAlarmReceiver";
+    /*TOneverDO: not private*/
+    private static final String ACTION_DISMISS_NOW = "com.philliphsu.clock2.action.DISMISS_NOW";
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
@@ -89,7 +89,7 @@ public class UpcomingAlarmReceiver extends BroadcastReceiver {
                     .putExtra(EXTRA_ALARM, ParcelableUtil.marshall(alarm));
             PendingIntent piDismiss = PendingIntent.getBroadcast(context, (int) id,
                     dismissIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-            Notification note = new NotificationCompat.Builder(context)
+            Notification note = new NotificationCompat.Builder(context, BaseActivity.CHANNEL_ID_UPCOMING)
                     .setSmallIcon(R.drawable.ic_alarm_24dp)
                     .setContentTitle(title)
                     .setContentText(text)

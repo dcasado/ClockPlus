@@ -26,6 +26,7 @@ import android.os.Parcelable;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 
+import com.philliphsu.clock2.BaseActivity;
 import com.philliphsu.clock2.R;
 import com.philliphsu.clock2.alarms.Alarm;
 import com.philliphsu.clock2.alarms.misc.AlarmController;
@@ -59,7 +60,7 @@ public class AlarmRingtoneService extends RingtoneService<Alarm> {
         }
         return super.onStartCommand(intent, flags, startId);
     }
-    
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -87,7 +88,7 @@ public class AlarmRingtoneService extends RingtoneService<Alarm> {
         String title = getRingingObject().label().isEmpty()
                 ? getString(R.string.alarm)
                 : getRingingObject().label();
-        return new NotificationCompat.Builder(this)
+        return new NotificationCompat.Builder(this, BaseActivity.CHANNEL_ID_RINGING)
                 // Required contents
                 .setSmallIcon(R.drawable.ic_alarm_24dp)
                 .setContentTitle(title)
