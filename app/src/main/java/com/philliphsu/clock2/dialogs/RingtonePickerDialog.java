@@ -19,12 +19,16 @@
 
 package com.philliphsu.clock2.dialogs;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
 import com.philliphsu.clock2.R;
@@ -49,14 +53,12 @@ public class RingtonePickerDialog extends BaseAlertDialogFragment {
     private static final String TAG = "RingtonePickerDialog";
     private static final String KEY_RINGTONE_URI = "key_ringtone_uri";
 
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+
     private RingtoneManager mRingtoneManager;
     private OnRingtoneSelectedListener mOnRingtoneSelectedListener;
     private Uri mRingtoneUri;
     private RingtoneLoop mRingtone;
-
-    public interface OnRingtoneSelectedListener {
-        void onRingtoneSelected(Uri ringtoneUri);
-    }
 
     /**
      * @param ringtoneUri the URI of the ringtone to show as initially selected
@@ -80,8 +82,9 @@ public class RingtonePickerDialog extends BaseAlertDialogFragment {
 
     @Override
     protected AlertDialog createFrom(AlertDialog.Builder builder) {
-        // TODO: We set the READ_EXTERNAL_STORAGE permission. Verify that this includes the user's 
+        // TODO: We set the READ_EXTERNAL_STORAGE permission. Verify that this includes the user's
         // custom ringtone files.
+        requestStoragePermission();
         Cursor cursor = mRingtoneManager.getCursor();
         int checkedItem = mRingtoneManager.getRingtonePosition(mRingtoneUri);
         String labelColumn = cursor.getColumnName(RingtoneManager.TITLE_COLUMN_INDEX);
@@ -132,5 +135,63 @@ public class RingtonePickerDialog extends BaseAlertDialogFragment {
             mRingtone.stop();
             mRingtone = null;
         }
+    }
+
+    private void requestStoragePermission() {
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this.getContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
+                    Manifest.permission.READ_CONTACTS)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this.getActivity(),
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    public interface OnRingtoneSelectedListener {
+        void onRingtoneSelected(Uri ringtoneUri);
     }
 }
