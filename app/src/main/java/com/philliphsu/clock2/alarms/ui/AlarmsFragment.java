@@ -21,6 +21,8 @@ package com.philliphsu.clock2.alarms.ui;
 
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.RecyclerView;
@@ -193,9 +195,14 @@ public class AlarmsFragment extends RecyclerViewFragment<Alarm, BaseAlarmViewHol
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // When we request the Builder, default values are provided for us,
         // which is why we don't have to set the ringtone, label, etc.
+
+        String ringtone = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(
+                getString(R.string.key_alarm_ringtone), Settings.System.ALARM_ALERT);
+
         Alarm alarm = Alarm.builder()
                 .hour(hourOfDay)
                 .minutes(minute)
+                .ringtone(ringtone)
                 .build();
         alarm.setEnabled(true);
         mAsyncUpdateHandler.asyncInsert(alarm);

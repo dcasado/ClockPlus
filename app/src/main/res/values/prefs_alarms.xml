@@ -21,6 +21,9 @@
 <resources>
     <string name="title_category_alarms">Alarms</string>
 
+    <string name="key_alarm_ringtone">key_alarm_ringtone</string>
+    <string name="title_alarm_ringtone">Default alarm ringtone</string>
+
     <!-- Silence after -->
     <string name="key_silence_after">key_silence_after</string>
     <string name="title_silence_after">Silence after</string>
