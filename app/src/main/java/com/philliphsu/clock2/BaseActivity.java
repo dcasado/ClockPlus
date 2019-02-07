@@ -121,19 +121,31 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void createAllNotificationChannels() {
-        createNotificationChannel(CHANNEL_ID_UPCOMING, getString(R.string.upcoming_alarm_channel_name), getString(R.string.upcoming_alarm_channel_description));
-        createNotificationChannel(CHANNEL_ID_MISSED, getString(R.string.missed_alarm_channel_name), getString(R.string.missed_alarm_channel_description));
-        createNotificationChannel(CHANNEL_ID_STOPWATCH, getString(R.string.stopwatch_channel_name), getString(R.string.stopwatch_channel_description));
-        createNotificationChannel(CHANNEL_ID_TIMES_UP, getString(R.string.times_up_channel_name), getString(R.string.times_up_channel_description));
-        createNotificationChannel(CHANNEL_ID_RINGING, getString(R.string.ringing_alarm_channel_name), getString(R.string.ringing_alarm_channel_description));
-        createNotificationChannel(CHANNEL_ID_EXPIRED, getString(R.string.timer_expired_channel_name), getString(R.string.timer_expired_channel_description));
+        createNotificationChannel(CHANNEL_ID_UPCOMING,
+                getString(R.string.upcoming_alarm_channel_name),
+                getString(R.string.upcoming_alarm_channel_description));
+        createNotificationChannel(CHANNEL_ID_MISSED,
+                getString(R.string.missed_alarm_channel_name),
+                getString(R.string.missed_alarm_channel_description));
+        createNotificationChannel(CHANNEL_ID_STOPWATCH,
+                getString(R.string.stopwatch_channel_name),
+                getString(R.string.stopwatch_channel_description));
+        createNotificationChannel(CHANNEL_ID_TIMES_UP,
+                getString(R.string.times_up_channel_name),
+                getString(R.string.times_up_channel_description));
+        createNotificationChannel(CHANNEL_ID_RINGING,
+                getString(R.string.ringing_alarm_channel_name),
+                getString(R.string.ringing_alarm_channel_description));
+        createNotificationChannel(CHANNEL_ID_EXPIRED,
+                getString(R.string.timer_expired_channel_name),
+                getString(R.string.timer_expired_channel_description));
     }
 
     private void createNotificationChannel(String channelID, String channelName, String channelDescription) {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_LOW;
             NotificationChannel channel = new NotificationChannel(channelID, channelName, importance);
             channel.setDescription(channelDescription);
             // Register the channel with the system; you can't change the importance
