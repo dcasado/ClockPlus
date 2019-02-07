@@ -95,35 +95,36 @@ public class TimesUpActivity extends RingtoneActivity<Timer> {
     }
 
     @Override
-    protected int getLeftButtonText() {
+    protected int getUpButtonText() {
         return R.string.add_one_minute;
     }
 
     @Override
-    protected int getRightButtonText() {
+    protected int getDownButtonText() {
         return R.string.stop;
     }
 
     @Override
-    protected int getLeftButtonDrawable() {
+    protected int getUpButtonDrawable() {
         return R.drawable.ic_add_48dp;
     }
 
     @Override
-    protected int getRightButtonDrawable() {
+    protected int getDownButtonDrawable() {
         return R.drawable.ic_stop_48dp;
     }
 
     @Override
-    protected void onLeftButtonClick() {
+    protected void onUpButtonClick() {
         mController.addOneMinute();
         stopAndFinish();
     }
 
     @Override
-    protected void onRightButtonClick() {
+    protected boolean onDownButtonClick() {
         mController.stop();
         stopAndFinish();
+        return true;
     }
 
     // TODO: Consider changing the return type to Notification, and move the actual

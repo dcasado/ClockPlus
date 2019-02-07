@@ -94,27 +94,27 @@ public class AlarmActivity extends RingtoneActivity<Alarm> {
     }
 
     @Override
-    protected int getLeftButtonText() {
+    protected int getUpButtonText() {
         return R.string.snooze;
     }
 
     @Override
-    protected int getRightButtonText() {
+    protected int getDownButtonText() {
         return R.string.dismiss;
     }
 
     @Override
-    protected int getLeftButtonDrawable() {
+    protected int getUpButtonDrawable() {
         return R.drawable.ic_snooze_48dp;
     }
 
     @Override
-    protected int getRightButtonDrawable() {
+    protected int getDownButtonDrawable() {
         return R.drawable.ic_dismiss_alarm_48dp;
     }
 
     @Override
-    protected void onLeftButtonClick() {
+    protected void onUpButtonClick() {
         mAlarmController.snoozeAlarm(getRingingObject());
         // Can't call dismiss() because we don't want to also call cancelAlarm()! Why? For example,
         // we don't want the alarm, if it has no recurrence, to be turned off right now.
@@ -122,10 +122,11 @@ public class AlarmActivity extends RingtoneActivity<Alarm> {
     }
 
     @Override
-    protected void onRightButtonClick() {
+    protected boolean onDownButtonClick() {
         // TODO do we really need to cancel the intent and alarm?
         mAlarmController.cancelAlarm(getRingingObject(), false, true);
         stopAndFinish();
+        return true;
     }
 
     @Override

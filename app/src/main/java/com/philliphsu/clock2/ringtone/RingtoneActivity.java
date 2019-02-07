@@ -42,6 +42,7 @@ import com.philliphsu.clock2.util.ParcelableUtil;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -63,8 +64,8 @@ public abstract class RingtoneActivity<T extends Parcelable> extends BaseActivit
     @Bind(R.id.auto_silenced_text) TextView mAutoSilencedText;
     @Bind(R.id.ok) Button mOkButton;
     @Bind(R.id.buttons_container) LinearLayout mButtonsContainer;
-    @Bind(R.id.btn_text_left) TextView mLeftButton;
-    @Bind(R.id.btn_text_right) TextView mRightButton;
+    @Bind(R.id.btn_text_up) TextView mUpButton;
+    @Bind(R.id.btn_text_down) TextView mDownButton;
 
     protected abstract Class<? extends RingtoneService> getRingtoneServiceClass();
 
@@ -85,22 +86,22 @@ public abstract class RingtoneActivity<T extends Parcelable> extends BaseActivit
     protected abstract int getAutoSilencedText();
 
     @StringRes
-    protected abstract int getLeftButtonText();
+    protected abstract int getUpButtonText();
 
     @StringRes
-    protected abstract int getRightButtonText();
+    protected abstract int getDownButtonText();
 
     @DrawableRes
-    protected abstract int getLeftButtonDrawable();
+    protected abstract int getUpButtonDrawable();
 
     @DrawableRes
-    protected abstract int getRightButtonDrawable();
+    protected abstract int getDownButtonDrawable();
 
-    @OnClick(R.id.btn_left)
-    protected abstract void onLeftButtonClick();
+    @OnClick(R.id.btn_up)
+    protected abstract void onUpButtonClick();
 
-    @OnClick(R.id.btn_right)
-    protected abstract void onRightButtonClick();
+    @OnLongClick(R.id.btn_down)
+    protected abstract boolean onDownButtonClick();
 
     /**
      * @return An implementation of {@link android.os.Parcelable.Creator} that can create
@@ -132,10 +133,10 @@ public abstract class RingtoneActivity<T extends Parcelable> extends BaseActivit
         getHeaderContent((LinearLayout) findViewById(R.id.header));
         mAutoSilencedText.setCompoundDrawablesWithIntrinsicBounds(0, getAutoSilencedDrawable(), 0, 0);
         mAutoSilencedText.setText(getAutoSilencedText());
-        mLeftButton.setText(getLeftButtonText());
-        mRightButton.setText(getRightButtonText());
-        mLeftButton.setCompoundDrawablesWithIntrinsicBounds(0, getLeftButtonDrawable(), 0, 0);
-        mRightButton.setCompoundDrawablesWithIntrinsicBounds(0, getRightButtonDrawable(), 0, 0);
+        mUpButton.setText(getUpButtonText());
+        mDownButton.setText(getDownButtonText());
+        mUpButton.setCompoundDrawablesWithIntrinsicBounds(0, getUpButtonDrawable(), 0, 0);
+        mDownButton.setCompoundDrawablesWithIntrinsicBounds(0, getDownButtonDrawable(), 0, 0);
 
         Intent intent = new Intent(this, getRingtoneServiceClass())
                 .putExtra(EXTRA_RINGING_OBJECT, ParcelableUtil.marshall(mRingingObject));
