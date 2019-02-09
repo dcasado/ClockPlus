@@ -74,7 +74,7 @@ public final class DeleteAlarmActivity extends AbstractAppCompatPluginActivity {
 
     @Override
     public boolean isBundleValid(@NonNull final Bundle bundle) {
-        return PluginBundleValues.isBundleValid(bundle);
+        return DeleteAlarmBundleValues.isBundleValid(bundle);
     }
 
     @Nullable

@@ -94,7 +94,7 @@ public final class DeleteAlarmBundleValues {
             BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_ACTION);
             BundleAssertions.assertHasString(bundle, BUNDLE_EXTRA_STRING_LABEL, false, false);
             BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_VERSION_CODE);
-            BundleAssertions.assertKeyCount(bundle, 3);
+            //BundleAssertions.assertKeyCount(bundle, 4);
         } catch (final AssertionError e) {
             Lumberjack.e("Bundle failed verification%s", e); //$NON-NLS-1$
             return false;

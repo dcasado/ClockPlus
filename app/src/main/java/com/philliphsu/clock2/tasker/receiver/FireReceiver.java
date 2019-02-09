@@ -17,9 +17,12 @@ package com.philliphsu.clock2.tasker.receiver;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.philliphsu.clock2.R;
 import com.philliphsu.clock2.alarms.Alarm;
 import com.philliphsu.clock2.alarms.data.AlarmCursor;
 import com.philliphsu.clock2.alarms.data.AlarmsTable;
@@ -87,10 +90,14 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
         AsyncAlarmsTableUpdateHandler mAsyncUpdateHandler;
         mAsyncUpdateHandler = new AsyncAlarmsTableUpdateHandler(context, null, null, mAlarmController);
 
+        String ringtone = PreferenceManager.getDefaultSharedPreferences(context).getString(
+                context.getString(R.string.key_alarm_ringtone), Settings.System.ALARM_ALERT);
+
         Alarm alarm = Alarm.builder()
                 .label(label)
                 .hour(hour)
                 .minutes(minutes)
+                .ringtone(ringtone)
                 .build();
         alarm.setEnabled(true);
 
