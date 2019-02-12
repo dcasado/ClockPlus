@@ -27,6 +27,7 @@ import com.philliphsu.clock2.alarms.data.AlarmsTableManager;
 import com.philliphsu.clock2.alarms.data.AsyncAlarmsTableUpdateHandler;
 import com.philliphsu.clock2.alarms.misc.AlarmController;
 import com.philliphsu.clock2.tasker.bundles.DeleteAlarmBundleValues;
+import com.philliphsu.clock2.tasker.bundles.EnableAlarmBundleValues;
 import com.philliphsu.clock2.tasker.bundles.PluginBundleValues;
 import com.twofortyfouram.locale.sdk.client.receiver.AbstractPluginSettingReceiver;
 
@@ -34,11 +35,14 @@ import static com.philliphsu.clock2.util.Preconditions.checkNotNull;
 
 public final class FireReceiver extends AbstractPluginSettingReceiver {
 
+    private AlarmController mAlarmController;
+    private AsyncAlarmsTableUpdateHandler mAsyncUpdateHandler;
+
     private static final String TAG = "FireReceiver";
 
     @Override
     protected boolean isBundleValid(@NonNull final Bundle bundle) {
-        return PluginBundleValues.isBundleValid(bundle) || DeleteAlarmBundleValues.isBundleValid(bundle);
+        return PluginBundleValues.isBundleValid(bundle) || DeleteAlarmBundleValues.isBundleValid(bundle) || EnableAlarmBundleValues.isBundleValid(bundle);
     }
 
     @Override
@@ -48,6 +52,10 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
 
     @Override
     protected void firePluginSetting(@NonNull final Context context, @NonNull final Bundle bundle) {
+
+        mAlarmController = new AlarmController(context, null);
+        mAsyncUpdateHandler = new AsyncAlarmsTableUpdateHandler(context, null, null, mAlarmController);
+
         int action = bundle.getInt(PluginBundleValues.BUNDLE_EXTRA_INT_ACTION);
         String label = bundle.getString(PluginBundleValues.BUNDLE_EXTRA_STRING_LABEL);
 
@@ -64,10 +72,14 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
                 }
                 int hour = Integer.valueOf(parsedTime[0]);
                 int minutes = Integer.valueOf(parsedTime[1]);
-                createAlarm(context, label, hour, minutes);
+                createAlarm(label, hour, minutes);
                 break;
             case 1:
                 deleteAlarm(context, label);
+                break;
+            case 2:
+                int alarmId = bundle.getInt(EnableAlarmBundleValues.BUNDLE_EXTRA_INT_ALARM_ID);
+                enableAlarm(context, alarmId);
                 break;
             default:
                 break;
@@ -82,11 +94,7 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
         return parsedTime;
     }
 
-    private void createAlarm(Context context, String label, int hour, int minutes) {
-        AlarmController mAlarmController = new AlarmController(context, null);
-        AsyncAlarmsTableUpdateHandler mAsyncUpdateHandler;
-        mAsyncUpdateHandler = new AsyncAlarmsTableUpdateHandler(context, null, null, mAlarmController);
-
+    private void createAlarm(String label, int hour, int minutes) {
         Alarm alarm = Alarm.builder()
                 .label(label)
                 .hour(hour)
@@ -100,9 +108,6 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
 
     private void deleteAlarm(Context context, String label) {
         Log.d(TAG, "Alarm to be deleted: " + label);
-        AsyncAlarmsTableUpdateHandler mAsyncUpdateHandler;
-        AlarmController mAlarmController = new AlarmController(context, null);
-        mAsyncUpdateHandler = new AsyncAlarmsTableUpdateHandler(context, null, null, mAlarmController);
 
         String where = AlarmsTable.COLUMN_LABEL + " = \"" + label + "\"";
         AlarmCursor cursor = new AlarmsTableManager(context).queryItems(where, "1");
@@ -110,5 +115,13 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
         Alarm alarm = checkNotNull(cursor.getItem());
 
         mAsyncUpdateHandler.asyncDelete(alarm);
+    }
+
+    private void enableAlarm(Context context, int alarmId) {
+        Alarm alarm = new AlarmsTableManager(context).queryItem(alarmId).getItem();
+        alarm.setEnabled(true);
+        mAlarmController.scheduleAlarm(alarm, false);
+        mAlarmController.save(alarm);
+        Log.d(TAG, "Alarm enabled: " + alarmId);
     }
 }
