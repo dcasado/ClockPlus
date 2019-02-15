@@ -1,18 +1,3 @@
-/*
- * android-toast-setting-plugin-for-locale <https://github.com/twofortyfouram/android-toast-setting-plugin-for-locale>
- * Copyright 2014 two forty four a.m. LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.philliphsu.clock2.tasker.activities;
 
 import android.content.pm.PackageManager;
@@ -28,8 +13,8 @@ import com.philliphsu.clock2.R;
 import com.philliphsu.clock2.alarms.Alarm;
 import com.philliphsu.clock2.alarms.data.AlarmCursor;
 import com.philliphsu.clock2.alarms.data.AlarmsTableManager;
-import com.philliphsu.clock2.tasker.Actions;
-import com.philliphsu.clock2.tasker.bundles.EnableAlarmBundleValues;
+import com.philliphsu.clock2.tasker.SpinnerAlarm;
+import com.philliphsu.clock2.tasker.bundles.AlarmBundleValues;
 import com.twofortyfouram.locale.sdk.client.ui.activity.AbstractAppCompatPluginActivity;
 import com.twofortyfouram.log.Lumberjack;
 
@@ -75,9 +60,13 @@ public final class EnableAlarmActivity extends AbstractAppCompatPluginActivity {
 
         mTableManager = new AlarmsTableManager(getApplicationContext());
 
-        List<Alarm> alarms = getAllAlarms();
+        List<SpinnerAlarm> spinnerAlarms = new ArrayList<>();
+        for (Alarm alarm : getAllAlarms()) {
+            SpinnerAlarm sa = new SpinnerAlarm(alarm.getIntId() + " - " + alarm.label(), alarm);
+            spinnerAlarms.add(sa);
+        }
 
-        ArrayAdapter<Alarm> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, alarms);
+        ArrayAdapter<SpinnerAlarm> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerAlarms);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
     }
@@ -85,14 +74,14 @@ public final class EnableAlarmActivity extends AbstractAppCompatPluginActivity {
     @Override
     public void onPostCreateWithPreviousResult(@NonNull final Bundle previousBundle,
                                                @NonNull final String previousBlurb) {
-        final int alarmId = EnableAlarmBundleValues.getAlarmId(previousBundle);
+        final int alarmId = previousBundle.getInt(AlarmBundleValues.BUNDLE_EXTRA_INT_ALARM_ID);
 
         Alarm alarm = mTableManager.queryItem(alarmId).getItem();
     }
 
     @Override
     public boolean isBundleValid(@NonNull final Bundle bundle) {
-        return EnableAlarmBundleValues.isBundleValid(bundle);
+        return AlarmBundleValues.isBundleValid(bundle);
     }
 
     @Nullable
@@ -100,10 +89,9 @@ public final class EnableAlarmActivity extends AbstractAppCompatPluginActivity {
     public Bundle getResultBundle() {
         Bundle result = null;
 
-        final Actions action = Actions.ENABLE;
-        final int alarmId = ((Alarm) spinner.getSelectedItem()).getIntId();
+        final int alarmId = ((SpinnerAlarm) spinner.getSelectedItem()).getAlarm().getIntId();
         if (alarmId >= 0) {
-            result = EnableAlarmBundleValues.generateBundle(getApplicationContext(), action.getValue(), alarmId);
+            result = AlarmBundleValues.generateEnableAlarmBundle(getApplicationContext(), alarmId);
         }
 
         return result;
@@ -112,16 +100,16 @@ public final class EnableAlarmActivity extends AbstractAppCompatPluginActivity {
     @NonNull
     @Override
     public String getResultBlurb(@NonNull final Bundle bundle) {
-        final String alarmId = String.valueOf(EnableAlarmBundleValues.getAlarmId(bundle));
+        final String text = ((SpinnerAlarm) spinner.getSelectedItem()).getText();
 
         final int maxBlurbLength = getResources().getInteger(
                 R.integer.com_twofortyfouram_locale_sdk_client_maximum_blurb_length);
 
-        if (alarmId.length() > maxBlurbLength) {
-            return alarmId.substring(0, maxBlurbLength);
+        if (text.length() > maxBlurbLength) {
+            return text.substring(0, maxBlurbLength);
         }
 
-        return alarmId;
+        return text;
     }
 
     @Override
