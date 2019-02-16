@@ -18,7 +18,9 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dcasado.taskeralarm">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.dcasado.taskeralarm"
+    tools:ignore="GoogleAppIndexingWarning">
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -26,7 +28,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -45,7 +47,7 @@
         <receiver
             android:name="com.dcasado.taskeralarm.alarms.background.UpcomingAlarmReceiver"
             android:enabled="true"
-            android:exported="false"></receiver>
+            android:exported="false" />
 
         <activity
             android:name="com.dcasado.taskeralarm.settings.SettingsActivity"
@@ -59,7 +61,7 @@
         <receiver
             android:name="com.dcasado.taskeralarm.alarms.background.PendingAlarmScheduler"
             android:enabled="true"
-            android:exported="false"></receiver>
+            android:exported="false" />
         <receiver
             android:name="com.dcasado.taskeralarm.alarms.background.OnBootUpReceiver"
             android:enabled="true"
@@ -72,7 +74,7 @@
         <service
             android:name="com.dcasado.taskeralarm.alarms.background.OnBootUpAlarmScheduler"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <activity
             android:name="com.dcasado.taskeralarm.timers.EditTimerActivity"
@@ -86,7 +88,7 @@
 
         <service
             android:name="com.dcasado.taskeralarm.timers.TimerNotificationService"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <activity
             android:name="com.dcasado.taskeralarm.ringtone.TimesUpActivity"
@@ -94,27 +96,27 @@
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
-            android:taskAffinity="com.dcasado.taskeralarm.RingtoneActivity"></activity>
+            android:taskAffinity="com.dcasado.taskeralarm.RingtoneActivity" />
         <activity
             android:name="com.dcasado.taskeralarm.ringtone.AlarmActivity"
             android:excludeFromRecents="true"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
-            android:taskAffinity="com.dcasado.taskeralarm.RingtoneActivity"></activity>
+            android:taskAffinity="com.dcasado.taskeralarm.RingtoneActivity" />
 
         <service
             android:name="com.dcasado.taskeralarm.ringtone.playback.AlarmRingtoneService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
         <service
             android:name="com.dcasado.taskeralarm.ringtone.playback.TimerRingtoneService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
         <service
             android:name="com.dcasado.taskeralarm.stopwatch.StopwatchNotificationService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <!-- Tasker -->
         <activity
@@ -123,7 +125,7 @@
             android:label="@string/create_alarm_activity"
             android:theme="@style/Theme.AppCompat"
             android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
 
         <activity-alias
             android:name="com.twofortyfouram.locale.example.setting.toast.ui.activity.PluginActivity"
@@ -143,7 +145,7 @@
             android:label="@string/delete_alarm_activity"
             android:theme="@style/Theme.AppCompat"
             android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
 
         <activity-alias
             android:name="com.twofortyfouram.locale.example.setting.toast.ui.activity.DeleteAlarmActivity"
@@ -163,7 +165,7 @@
             android:label="@string/enable_alarm_activity"
             android:theme="@style/Theme.AppCompat"
             android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
 
         <activity-alias
             android:name="com.twofortyfouram.locale.example.setting.toast.ui.activity.EnableAlarmActivity"
@@ -183,7 +185,7 @@
             android:label="@string/disable_alarm_activity"
             android:theme="@style/Theme.AppCompat"
             android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
 
         <activity-alias
             android:name="com.twofortyfouram.locale.example.setting.toast.ui.activity.DisableAlarmActivity"

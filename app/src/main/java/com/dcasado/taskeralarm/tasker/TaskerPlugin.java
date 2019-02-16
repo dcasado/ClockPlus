@@ -116,7 +116,7 @@ public class TaskerPlugin {
      */
 
     private final static String EXTRA_HINTS_BUNDLE = EXTRAS_PREFIX + "HINTS";
-s
+
     private final static String BUNDLE_KEY_HINT_PREFIX = ".hints.";
     private final static String BUNDLE_KEY_HINT_TIMEOUT_MS = BUNDLE_KEY_HINT_PREFIX + "TIMEOUT";
     /**

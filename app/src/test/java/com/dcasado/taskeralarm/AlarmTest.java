@@ -36,6 +36,7 @@ import static java.util.Calendar.MINUTE;
 import static java.util.Calendar.SECOND;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -50,7 +51,7 @@ public class AlarmTest {
         // Some true, some false
         for (int i = SUNDAY; i <= SATURDAY; i++) {
             alarm.setRecurring(i, i % 2 == 0);
-            assertTrue(alarm.isRecurring(i) == (i % 2 == 0));
+            assertSame((i % 2 == 0), alarm.isRecurring(i));
         }
         assertTrue(alarm.hasRecurrence());
         
