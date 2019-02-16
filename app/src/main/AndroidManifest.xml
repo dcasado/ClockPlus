@@ -18,7 +18,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.philliphsu.clock2">
+    package="com.dcasado.taskeralarm">
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -32,7 +32,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="com.dcasado.taskeralarm.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask">
             <intent-filter>
@@ -43,25 +43,25 @@
         </activity>
 
         <receiver
-            android:name=".alarms.background.UpcomingAlarmReceiver"
+            android:name="com.dcasado.taskeralarm.alarms.background.UpcomingAlarmReceiver"
             android:enabled="true"
             android:exported="false"></receiver>
 
         <activity
-            android:name=".settings.SettingsActivity"
+            android:name="com.dcasado.taskeralarm.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="com.dcasado.taskeralarm.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.philliphsu.clock2.MainActivity" />
+                android:value="com.dcasado.taskeralarm.MainActivity" />
         </activity>
 
         <receiver
-            android:name=".alarms.background.PendingAlarmScheduler"
+            android:name="com.dcasado.taskeralarm.alarms.background.PendingAlarmScheduler"
             android:enabled="true"
             android:exported="false"></receiver>
         <receiver
-            android:name=".alarms.background.OnBootUpReceiver"
+            android:name="com.dcasado.taskeralarm.alarms.background.OnBootUpReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -70,55 +70,55 @@
         </receiver>
 
         <service
-            android:name=".alarms.background.OnBootUpAlarmScheduler"
+            android:name="com.dcasado.taskeralarm.alarms.background.OnBootUpAlarmScheduler"
             android:enabled="true"
             android:exported="false"></service>
 
         <activity
-            android:name=".timers.EditTimerActivity"
+            android:name="com.dcasado.taskeralarm.timers.EditTimerActivity"
             android:label="@string/title_activity_create_timer"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.dcasado.taskeralarm.MainActivity"
             android:windowSoftInputMode="adjustNothing">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.philliphsu.clock2.MainActivity" />
+                android:value="com.dcasado.taskeralarm.MainActivity" />
         </activity>
 
         <service
-            android:name=".timers.TimerNotificationService"
+            android:name="com.dcasado.taskeralarm.timers.TimerNotificationService"
             android:exported="false"></service>
 
         <activity
-            android:name=".ringtone.TimesUpActivity"
+            android:name="com.dcasado.taskeralarm.ringtone.TimesUpActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_ringtone"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
-            android:taskAffinity="com.philliphsu.clock2.RingtoneActivity"></activity>
+            android:taskAffinity="com.dcasado.taskeralarm.RingtoneActivity"></activity>
         <activity
-            android:name=".ringtone.AlarmActivity"
+            android:name="com.dcasado.taskeralarm.ringtone.AlarmActivity"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_ringtone"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
-            android:taskAffinity="com.philliphsu.clock2.RingtoneActivity"></activity>
+            android:taskAffinity="com.dcasado.taskeralarm.RingtoneActivity"></activity>
 
         <service
-            android:name=".ringtone.playback.AlarmRingtoneService"
+            android:name="com.dcasado.taskeralarm.ringtone.playback.AlarmRingtoneService"
             android:enabled="true"
             android:exported="false"></service>
         <service
-            android:name=".ringtone.playback.TimerRingtoneService"
+            android:name="com.dcasado.taskeralarm.ringtone.playback.TimerRingtoneService"
             android:enabled="true"
             android:exported="false"></service>
         <service
-            android:name=".stopwatch.StopwatchNotificationService"
+            android:name="com.dcasado.taskeralarm.stopwatch.StopwatchNotificationService"
             android:enabled="true"
             android:exported="false"></service>
 
         <!-- Tasker -->
         <activity
-            android:name=".tasker.activities.CreateAlarmActivity"
+            android:name="com.dcasado.taskeralarm.tasker.activities.CreateAlarmActivity"
             android:exported="false"
             android:label="@string/create_alarm_activity"
             android:theme="@style/Theme.AppCompat"
@@ -130,7 +130,7 @@
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/create_alarm_activity"
-            android:targetActivity=".tasker.activities.CreateAlarmActivity">
+            android:targetActivity="com.dcasado.taskeralarm.tasker.activities.CreateAlarmActivity">
             <!-- this Intent filter allows the plug-in to be discovered by the host. -->
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
@@ -138,7 +138,7 @@
         </activity-alias>
 
         <activity
-            android:name=".tasker.activities.DeleteAlarmActivity"
+            android:name="com.dcasado.taskeralarm.tasker.activities.DeleteAlarmActivity"
             android:exported="false"
             android:label="@string/delete_alarm_activity"
             android:theme="@style/Theme.AppCompat"
@@ -150,7 +150,7 @@
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/delete_alarm_activity"
-            android:targetActivity=".tasker.activities.DeleteAlarmActivity">
+            android:targetActivity="com.dcasado.taskeralarm.tasker.activities.DeleteAlarmActivity">
             <!-- this Intent filter allows the plug-in to be discovered by the host. -->
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
@@ -158,7 +158,7 @@
         </activity-alias>
 
         <activity
-            android:name=".tasker.activities.EnableAlarmActivity"
+            android:name="com.dcasado.taskeralarm.tasker.activities.EnableAlarmActivity"
             android:exported="false"
             android:label="@string/enable_alarm_activity"
             android:theme="@style/Theme.AppCompat"
@@ -170,7 +170,7 @@
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/enable_alarm_activity"
-            android:targetActivity=".tasker.activities.EnableAlarmActivity">
+            android:targetActivity="com.dcasado.taskeralarm.tasker.activities.EnableAlarmActivity">
             <!-- this Intent filter allows the plug-in to be discovered by the host. -->
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
@@ -178,7 +178,7 @@
         </activity-alias>
 
         <activity
-            android:name=".tasker.activities.DisableAlarmActivity"
+            android:name="com.dcasado.taskeralarm.tasker.activities.DisableAlarmActivity"
             android:exported="false"
             android:label="@string/disable_alarm_activity"
             android:theme="@style/Theme.AppCompat"
@@ -190,7 +190,7 @@
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/disable_alarm_activity"
-            android:targetActivity=".tasker.activities.DisableAlarmActivity">
+            android:targetActivity="com.dcasado.taskeralarm.tasker.activities.DisableAlarmActivity">
             <!-- this Intent filter allows the plug-in to be discovered by the host. -->
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
@@ -206,7 +206,7 @@
                 - There are multiple BroadcastReceivers for com.twofortyfouram.locale.intent.action.FIRE_SETTING
         -->
         <receiver
-            android:name=".tasker.receiver.FireReceiver"
+            android:name="com.dcasado.taskeralarm.tasker.receiver.FireReceiver"
             android:exported="true"
             android:process=":background">
 

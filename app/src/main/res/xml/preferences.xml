@@ -64,7 +64,7 @@
         <Preference
             android:key="@string/key_alarm_volume"
             android:title="@string/title_alarm_volume"/>
-        <com.philliphsu.clock2.settings.ThemedRingtonePreference
+        <com.dcasado.taskeralarm.settings.ThemedRingtonePreference
             android:key="@string/key_alarm_ringtone"
             android:title="@string/title_alarm_ringtone"
             android:ringtoneType="alarm"
@@ -87,7 +87,7 @@
             android:summary="%s"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/title_category_timers">
-        <com.philliphsu.clock2.settings.ThemedRingtonePreference
+        <com.dcasado.taskeralarm.settings.ThemedRingtonePreference
             android:key="@string/key_timer_ringtone"
             android:title="@string/title_timer_ringtone"
             android:ringtoneType="alarm"
