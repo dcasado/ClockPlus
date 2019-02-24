@@ -157,6 +157,46 @@
             </intent-filter>
         </activity-alias>
 
+        <activity
+            android:name=".tasker.activities.EnableAlarmActivity"
+            android:exported="false"
+            android:label="@string/enable_alarm_activity"
+            android:theme="@style/Theme.AppCompat"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="adjustResize"></activity>
+
+        <activity-alias
+            android:name="com.twofortyfouram.locale.example.setting.toast.ui.activity.EnableAlarmActivity"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/enable_alarm_activity"
+            android:targetActivity=".tasker.activities.EnableAlarmActivity">
+            <!-- this Intent filter allows the plug-in to be discovered by the host. -->
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity
+            android:name=".tasker.activities.DisableAlarmActivity"
+            android:exported="false"
+            android:label="@string/disable_alarm_activity"
+            android:theme="@style/Theme.AppCompat"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="adjustResize"></activity>
+
+        <activity-alias
+            android:name="com.twofortyfouram.locale.example.setting.toast.ui.activity.DisableAlarmActivity"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/disable_alarm_activity"
+            android:targetActivity=".tasker.activities.DisableAlarmActivity">
+            <!-- this Intent filter allows the plug-in to be discovered by the host. -->
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
+            </intent-filter>
+        </activity-alias>
+
         <!--
              This is the "fire" BroadcastReceiver. Note that the host will reject plug-in
              BroadcastReceivers for the following reasons:

@@ -1,18 +1,3 @@
-/*
- * android-toast-setting-plugin-for-locale <https://github.com/twofortyfouram/android-toast-setting-plugin-for-locale>
- * Copyright 2014 two forty four a.m. LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.philliphsu.clock2.tasker.activities;
 
 import android.content.pm.PackageManager;
@@ -25,9 +10,8 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.philliphsu.clock2.R;
-import com.philliphsu.clock2.tasker.Actions;
 import com.philliphsu.clock2.tasker.TaskerPlugin;
-import com.philliphsu.clock2.tasker.bundles.PluginBundleValues;
+import com.philliphsu.clock2.tasker.bundles.AlarmBundleValues;
 import com.twofortyfouram.locale.sdk.client.ui.activity.AbstractAppCompatPluginActivity;
 import com.twofortyfouram.log.Lumberjack;
 
@@ -67,15 +51,15 @@ public final class CreateAlarmActivity extends AbstractAppCompatPluginActivity {
     @Override
     public void onPostCreateWithPreviousResult(@NonNull final Bundle previousBundle,
                                                @NonNull final String previousBlurb) {
-        final String label = PluginBundleValues.getLabel(previousBundle);
+        final String label = previousBundle.getString(AlarmBundleValues.BUNDLE_EXTRA_STRING_LABEL);
         ((EditText) findViewById(R.id.activity_tasker_create_alarm_edit_text_label)).setText(label);
-        final String time = PluginBundleValues.getTime(previousBundle);
+        final String time = previousBundle.getString(AlarmBundleValues.BUNDLE_EXTRA_STRING_TIME);
         ((EditText) findViewById(R.id.activity_tasker_create_alarm_edit_text_time)).setText(time);
     }
 
     @Override
     public boolean isBundleValid(@NonNull final Bundle bundle) {
-        return PluginBundleValues.isBundleValid(bundle);
+        return AlarmBundleValues.isBundleValid(bundle);
     }
 
     @Nullable
@@ -83,16 +67,15 @@ public final class CreateAlarmActivity extends AbstractAppCompatPluginActivity {
     public Bundle getResultBundle() {
         Bundle result = null;
 
-        final Actions action = Actions.CREATE;
         final String label = ((EditText) findViewById(R.id.activity_tasker_create_alarm_edit_text_label)).getText().toString();
         final String time = ((EditText) findViewById(R.id.activity_tasker_create_alarm_edit_text_time)).getText().toString();
         if (!TextUtils.isEmpty(label) && !TextUtils.isEmpty(time)) {
-            result = PluginBundleValues.generateBundle(getApplicationContext(), action.getValue(), label, time);
+            result = AlarmBundleValues.generateCreateAlarmBundle(getApplicationContext(), label, time);
 
             if (TaskerPlugin.Setting.hostSupportsOnFireVariableReplacement(this)) {
                 TaskerPlugin.Setting.setVariableReplaceKeys(result, new String[]{
-                        PluginBundleValues.BUNDLE_EXTRA_STRING_LABEL,
-                        PluginBundleValues.BUNDLE_EXTRA_STRING_TIME
+                        AlarmBundleValues.BUNDLE_EXTRA_STRING_LABEL,
+                        AlarmBundleValues.BUNDLE_EXTRA_STRING_TIME
                 });
             }
         }
@@ -103,7 +86,7 @@ public final class CreateAlarmActivity extends AbstractAppCompatPluginActivity {
     @NonNull
     @Override
     public String getResultBlurb(@NonNull final Bundle bundle) {
-        final String label = PluginBundleValues.getLabel(bundle);
+        final String label = bundle.getString(AlarmBundleValues.BUNDLE_EXTRA_STRING_LABEL);
 
         final int maxBlurbLength = getResources().getInteger(
                 R.integer.com_twofortyfouram_locale_sdk_client_maximum_blurb_length);

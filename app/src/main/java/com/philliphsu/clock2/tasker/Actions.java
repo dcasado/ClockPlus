@@ -2,7 +2,9 @@ package com.philliphsu.clock2.tasker;
 
 public enum Actions {
     CREATE(0),
-    DELETE(1);
+    DELETE(1),
+    ENABLE(2),
+    DISABLE(3);
 
     private final int value;
 

@@ -1,18 +1,3 @@
-/*
- * android-toast-setting-plugin-for-locale <https://github.com/twofortyfouram/android-toast-setting-plugin-for-locale>
- * Copyright 2014 two forty four a.m. LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.philliphsu.clock2.tasker.receiver;
 
 import android.content.Context;
@@ -25,12 +10,10 @@ import android.util.Log;
 import com.philliphsu.clock2.R;
 import com.philliphsu.clock2.alarms.Alarm;
 import com.philliphsu.clock2.alarms.data.AlarmCursor;
-import com.philliphsu.clock2.alarms.data.AlarmsTable;
 import com.philliphsu.clock2.alarms.data.AlarmsTableManager;
 import com.philliphsu.clock2.alarms.data.AsyncAlarmsTableUpdateHandler;
 import com.philliphsu.clock2.alarms.misc.AlarmController;
-import com.philliphsu.clock2.tasker.bundles.DeleteAlarmBundleValues;
-import com.philliphsu.clock2.tasker.bundles.PluginBundleValues;
+import com.philliphsu.clock2.tasker.bundles.AlarmBundleValues;
 import com.twofortyfouram.locale.sdk.client.receiver.AbstractPluginSettingReceiver;
 
 import static com.philliphsu.clock2.util.Preconditions.checkNotNull;
@@ -38,10 +21,12 @@ import static com.philliphsu.clock2.util.Preconditions.checkNotNull;
 public final class FireReceiver extends AbstractPluginSettingReceiver {
 
     private static final String TAG = "FireReceiver";
+    private AlarmController mAlarmController;
+    private AsyncAlarmsTableUpdateHandler mAsyncUpdateHandler;
 
     @Override
     protected boolean isBundleValid(@NonNull final Bundle bundle) {
-        return PluginBundleValues.isBundleValid(bundle) || DeleteAlarmBundleValues.isBundleValid(bundle);
+        return AlarmBundleValues.isBundleValid(bundle);
     }
 
     @Override
@@ -51,12 +36,17 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
 
     @Override
     protected void firePluginSetting(@NonNull final Context context, @NonNull final Bundle bundle) {
-        int action = bundle.getInt(PluginBundleValues.BUNDLE_EXTRA_INT_ACTION);
-        String label = bundle.getString(PluginBundleValues.BUNDLE_EXTRA_STRING_LABEL);
+
+        mAlarmController = new AlarmController(context, null);
+        mAsyncUpdateHandler = new AsyncAlarmsTableUpdateHandler(context, null, null, mAlarmController);
+
+        int action = bundle.getInt(AlarmBundleValues.BUNDLE_EXTRA_INT_ACTION);
+        int alarmId;
 
         switch (action) {
             case 0:
-                String time = bundle.getString(PluginBundleValues.BUNDLE_EXTRA_STRING_TIME);
+                String label = bundle.getString(AlarmBundleValues.BUNDLE_EXTRA_STRING_LABEL);
+                String time = bundle.getString(AlarmBundleValues.BUNDLE_EXTRA_STRING_TIME);
                 String[] parsedTime;
                 if (time.contains(".")) {
                     parsedTime = parseTime(time, "\\.");
@@ -70,7 +60,16 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
                 createAlarm(context, label, hour, minutes);
                 break;
             case 1:
-                deleteAlarm(context, label);
+                alarmId = bundle.getInt(AlarmBundleValues.BUNDLE_EXTRA_INT_ALARM_ID);
+                deleteAlarm(context, alarmId);
+                break;
+            case 2:
+                alarmId = bundle.getInt(AlarmBundleValues.BUNDLE_EXTRA_INT_ALARM_ID);
+                setEnabledAlarm(context, alarmId, true);
+                break;
+            case 3:
+                alarmId = bundle.getInt(AlarmBundleValues.BUNDLE_EXTRA_INT_ALARM_ID);
+                setEnabledAlarm(context, alarmId, false);
                 break;
             default:
                 break;
@@ -86,10 +85,6 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
     }
 
     private void createAlarm(Context context, String label, int hour, int minutes) {
-        AlarmController mAlarmController = new AlarmController(context, null);
-        AsyncAlarmsTableUpdateHandler mAsyncUpdateHandler;
-        mAsyncUpdateHandler = new AsyncAlarmsTableUpdateHandler(context, null, null, mAlarmController);
-
         String ringtone = PreferenceManager.getDefaultSharedPreferences(context).getString(
                 context.getString(R.string.key_alarm_ringtone), Settings.System.ALARM_ALERT);
 
@@ -105,17 +100,20 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
         mAsyncUpdateHandler.asyncInsert(alarm);
     }
 
-    private void deleteAlarm(Context context, String label) {
-        Log.d(TAG, "Alarm to be deleted: " + label);
-        AsyncAlarmsTableUpdateHandler mAsyncUpdateHandler;
-        AlarmController mAlarmController = new AlarmController(context, null);
-        mAsyncUpdateHandler = new AsyncAlarmsTableUpdateHandler(context, null, null, mAlarmController);
+    private void deleteAlarm(Context context, int alarmId) {
+        Log.d(TAG, "Alarm to be deleted: " + alarmId);
 
-        String where = AlarmsTable.COLUMN_LABEL + " = \"" + label + "\"";
-        AlarmCursor cursor = new AlarmsTableManager(context).queryItems(where, "1");
-        cursor.moveToFirst();
+        AlarmCursor cursor = new AlarmsTableManager(context).queryItem(alarmId);
         Alarm alarm = checkNotNull(cursor.getItem());
 
         mAsyncUpdateHandler.asyncDelete(alarm);
+    }
+
+    private void setEnabledAlarm(Context context, int alarmId, boolean enable) {
+        Alarm alarm = new AlarmsTableManager(context).queryItem(alarmId).getItem();
+        alarm.setEnabled(enable);
+        mAlarmController.scheduleAlarm(alarm, false);
+        mAlarmController.save(alarm);
+        Log.d(TAG, "Alarm enabled: " + alarmId);
     }
 }
