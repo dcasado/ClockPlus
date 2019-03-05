@@ -4,7 +4,8 @@ public enum Actions {
     CREATE(0),
     DELETE(1),
     ENABLE(2),
-    DISABLE(3);
+    DISABLE(3),
+    MODIFY(4);
 
     private final int value;
 

@@ -42,21 +42,17 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
 
         int action = bundle.getInt(AlarmBundleValues.BUNDLE_EXTRA_INT_ACTION);
         int alarmId;
+        String[] parsedTime;
+        int hour;
+        int minutes;
 
         switch (action) {
             case 0:
                 String label = bundle.getString(AlarmBundleValues.BUNDLE_EXTRA_STRING_LABEL);
                 String time = bundle.getString(AlarmBundleValues.BUNDLE_EXTRA_STRING_TIME);
-                String[] parsedTime;
-                if (time.contains(".")) {
-                    parsedTime = parseTime(time, "\\.");
-                } else if (time.contains(":")) {
-                    parsedTime = parseTime(time, ":");
-                } else {
-                    throw new IllegalArgumentException("Time must be of format HH.mm or HH:mm");
-                }
-                int hour = Integer.valueOf(parsedTime[0]);
-                int minutes = Integer.valueOf(parsedTime[1]);
+                parsedTime = parseTime(time);
+                hour = Integer.valueOf(parsedTime[0]);
+                minutes = Integer.valueOf(parsedTime[1]);
                 createAlarm(context, label, hour, minutes);
                 break;
             case 1:
@@ -76,7 +72,15 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
         }
     }
 
-    private String[] parseTime(String time, String regex) {
+    private String[] parseTime(String time) {
+        String regex;
+        if (time.contains(".")) {
+            regex = "\\.";
+        } else if (time.contains(":")) {
+            regex = ":";
+        } else {
+            throw new IllegalArgumentException("Time must be of format HH.mm or HH:mm");
+        }
         String[] parsedTime = time.split(regex);
         if (parsedTime.length != 2) {
             throw new IllegalArgumentException("Time must be of format HH.mm or HH:mm");

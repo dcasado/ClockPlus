@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.dcasado.taskeralarm.R;
@@ -14,6 +15,7 @@ import com.dcasado.taskeralarm.alarms.Alarm;
 import com.dcasado.taskeralarm.alarms.data.AlarmCursor;
 import com.dcasado.taskeralarm.alarms.data.AlarmsTableManager;
 import com.dcasado.taskeralarm.tasker.SpinnerAlarm;
+import com.dcasado.taskeralarm.tasker.TaskerPlugin;
 import com.dcasado.taskeralarm.tasker.bundles.AlarmBundleValues;
 import com.twofortyfouram.locale.sdk.client.ui.activity.AbstractAppCompatPluginActivity;
 import com.twofortyfouram.log.Lumberjack;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NotThreadSafe
-public final class EnableAlarmActivity extends AbstractAppCompatPluginActivity {
+public final class ModifyAlarmActivity extends AbstractAppCompatPluginActivity {
 
     private AlarmsTableManager mTableManager;
     private Spinner spinner;
@@ -33,7 +35,7 @@ public final class EnableAlarmActivity extends AbstractAppCompatPluginActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_tasker_enable_alarm);
+        setContentView(R.layout.activity_tasker_modify_alarm);
 
         /*
          * To help the user keep context, the title shows the host's name and the subtitle
@@ -52,11 +54,11 @@ public final class EnableAlarmActivity extends AbstractAppCompatPluginActivity {
             setTitle(callingApplicationLabel);
         }
 
-        getSupportActionBar().setSubtitle(R.string.enable_alarm_activity);
+        getSupportActionBar().setSubtitle(R.string.modify_alarm_activity);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        spinner = findViewById(R.id.activity_tasker_enable_alarm_spinner);
+        spinner = findViewById(R.id.activity_tasker_modify_alarm_spinner);
 
         mTableManager = new AlarmsTableManager(getApplicationContext());
 
@@ -90,8 +92,15 @@ public final class EnableAlarmActivity extends AbstractAppCompatPluginActivity {
         Bundle result = null;
 
         final int alarmId = ((SpinnerAlarm) spinner.getSelectedItem()).getAlarm().getIntId();
+        final String time = ((EditText) findViewById(R.id.activity_tasker_modify_alarm_edit_text_time)).getText().toString();
         if (alarmId >= 0) {
-            result = AlarmBundleValues.generateEnableAlarmBundle(getApplicationContext(), alarmId);
+            result = AlarmBundleValues.generateModifyAlarmBundle(getApplicationContext(), alarmId, time);
+
+            if (TaskerPlugin.Setting.hostSupportsOnFireVariableReplacement(this)) {
+                TaskerPlugin.Setting.setVariableReplaceKeys(result, new String[]{
+                        AlarmBundleValues.BUNDLE_EXTRA_STRING_TIME
+                });
+            }
         }
 
         return result;
