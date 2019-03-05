@@ -42,6 +42,7 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
 
         int action = bundle.getInt(AlarmBundleValues.BUNDLE_EXTRA_INT_ACTION);
         int alarmId;
+        String time;
         String[] parsedTime;
         int hour;
         int minutes;
@@ -49,7 +50,7 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
         switch (action) {
             case 0:
                 String label = bundle.getString(AlarmBundleValues.BUNDLE_EXTRA_STRING_LABEL);
-                String time = bundle.getString(AlarmBundleValues.BUNDLE_EXTRA_STRING_TIME);
+                time = bundle.getString(AlarmBundleValues.BUNDLE_EXTRA_STRING_TIME);
                 parsedTime = parseTime(time);
                 hour = Integer.valueOf(parsedTime[0]);
                 minutes = Integer.valueOf(parsedTime[1]);
@@ -67,7 +68,16 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
                 alarmId = bundle.getInt(AlarmBundleValues.BUNDLE_EXTRA_INT_ALARM_ID);
                 setEnabledAlarm(context, alarmId, false);
                 break;
+            case 4:
+                alarmId = bundle.getInt(AlarmBundleValues.BUNDLE_EXTRA_INT_ALARM_ID);
+                time = bundle.getString(AlarmBundleValues.BUNDLE_EXTRA_STRING_TIME);
+                parsedTime = parseTime(time);
+                hour = Integer.valueOf(parsedTime[0]);
+                minutes = Integer.valueOf(parsedTime[1]);
+                modifyAlarm(context, alarmId, hour, minutes);
+                break;
             default:
+                Log.d(TAG, "Action " + action + " not recognized");
                 break;
         }
     }
@@ -119,5 +129,16 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
         mAlarmController.scheduleAlarm(alarm, false);
         mAlarmController.save(alarm);
         Log.d(TAG, "Alarm enabled: " + alarmId);
+    }
+
+    private void modifyAlarm(Context context, int alarmId, int hour, int minutes) {
+        Alarm alarm = new AlarmsTableManager(context).queryItem(alarmId).getItem();
+        Alarm newAlarm = alarm.toBuilder()
+                .hour(hour)
+                .minutes(minutes)
+                .build();
+        alarm.copyMutableFieldsTo(newAlarm);
+        mAlarmController.scheduleAlarm(alarm, false);
+        Log.d(TAG, "Alarm modified: " + alarmId);
     }
 }

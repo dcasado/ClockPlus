@@ -77,8 +77,11 @@ public final class ModifyAlarmActivity extends AbstractAppCompatPluginActivity {
     public void onPostCreateWithPreviousResult(@NonNull final Bundle previousBundle,
                                                @NonNull final String previousBlurb) {
         final int alarmId = previousBundle.getInt(AlarmBundleValues.BUNDLE_EXTRA_INT_ALARM_ID);
-
         Alarm alarm = mTableManager.queryItem(alarmId).getItem();
+
+        final String time = previousBundle.getString(AlarmBundleValues.BUNDLE_EXTRA_STRING_TIME);
+        EditText editTextTime = findViewById(R.id.activity_tasker_modify_alarm_edit_text_time);
+        editTextTime.setText(time);
     }
 
     @Override
