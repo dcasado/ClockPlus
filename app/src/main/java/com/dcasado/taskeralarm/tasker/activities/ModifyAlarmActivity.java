@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import com.dcasado.taskeralarm.R;
 import com.dcasado.taskeralarm.alarms.Alarm;
@@ -30,6 +31,7 @@ public final class ModifyAlarmActivity extends AbstractAppCompatPluginActivity {
 
     private AlarmsTableManager mTableManager;
     private Spinner spinner;
+    private Switch mSwitch;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -59,6 +61,7 @@ public final class ModifyAlarmActivity extends AbstractAppCompatPluginActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         spinner = findViewById(R.id.activity_tasker_modify_alarm_spinner);
+        mSwitch = findViewById(R.id.activity_tasker_modify_alarm_switch_enable);
 
         mTableManager = new AlarmsTableManager(getApplicationContext());
 
@@ -82,6 +85,9 @@ public final class ModifyAlarmActivity extends AbstractAppCompatPluginActivity {
         final String time = previousBundle.getString(AlarmBundleValues.BUNDLE_EXTRA_STRING_TIME);
         EditText editTextTime = findViewById(R.id.activity_tasker_modify_alarm_edit_text_time);
         editTextTime.setText(time);
+
+        final boolean enabled = previousBundle.getBoolean(AlarmBundleValues.BUNDLE_EXTRA_BOOLEAN_ENABLED);
+        mSwitch.setChecked(enabled);
     }
 
     @Override
@@ -96,8 +102,9 @@ public final class ModifyAlarmActivity extends AbstractAppCompatPluginActivity {
 
         final int alarmId = ((SpinnerAlarm) spinner.getSelectedItem()).getAlarm().getIntId();
         final String time = ((EditText) findViewById(R.id.activity_tasker_modify_alarm_edit_text_time)).getText().toString();
+        final boolean enabled = mSwitch.isChecked();
         if (alarmId >= 0) {
-            result = AlarmBundleValues.generateModifyAlarmBundle(getApplicationContext(), alarmId, time);
+            result = AlarmBundleValues.generateModifyAlarmBundle(getApplicationContext(), alarmId, time, enabled);
 
             if (TaskerPlugin.Setting.hostSupportsOnFireVariableReplacement(this)) {
                 TaskerPlugin.Setting.setVariableReplaceKeys(result, new String[]{

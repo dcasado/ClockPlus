@@ -43,6 +43,7 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
         int action = bundle.getInt(AlarmBundleValues.BUNDLE_EXTRA_INT_ACTION);
         int alarmId;
         String time;
+        boolean enabled;
         String[] parsedTime;
         int hour;
         int minutes;
@@ -71,10 +72,11 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
             case 4:
                 alarmId = bundle.getInt(AlarmBundleValues.BUNDLE_EXTRA_INT_ALARM_ID);
                 time = bundle.getString(AlarmBundleValues.BUNDLE_EXTRA_STRING_TIME);
+                enabled = bundle.getBoolean(AlarmBundleValues.BUNDLE_EXTRA_BOOLEAN_ENABLED);
                 parsedTime = parseTime(time);
                 hour = Integer.valueOf(parsedTime[0]);
                 minutes = Integer.valueOf(parsedTime[1]);
-                modifyAlarm(context, alarmId, hour, minutes);
+                modifyAlarm(context, alarmId, hour, minutes, enabled);
                 break;
             default:
                 Log.d(TAG, "Action " + action + " not recognized");
@@ -131,13 +133,14 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
         Log.d(TAG, "Alarm enabled: " + alarmId);
     }
 
-    private void modifyAlarm(Context context, int alarmId, int hour, int minutes) {
+    private void modifyAlarm(Context context, int alarmId, int hour, int minutes, boolean enabled) {
         Alarm alarm = new AlarmsTableManager(context).queryItem(alarmId).getItem();
         Alarm newAlarm = alarm.toBuilder()
                 .hour(hour)
                 .minutes(minutes)
                 .build();
         alarm.copyMutableFieldsTo(newAlarm);
+        newAlarm.setEnabled(enabled);
         mAlarmController.scheduleAlarm(newAlarm, false);
         mAlarmController.save(newAlarm);
         Log.d(TAG, "Alarm modified: " + alarmId);

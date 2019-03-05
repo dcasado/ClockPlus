@@ -34,6 +34,10 @@ public final class AlarmBundleValues {
     public static final String BUNDLE_EXTRA_STRING_TIME
             = "com.dcasado.extra.STRING_TIME";
 
+    @NonNull
+    public static final String BUNDLE_EXTRA_BOOLEAN_ENABLED
+            = "com.dcasado.extra.BOOLEAN_ENABLED";
+
     /**
      * Type: {@code int}.
      * <p>
@@ -145,6 +149,7 @@ public final class AlarmBundleValues {
             BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_ACTION);
             BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_ALARM_ID);
             BundleAssertions.assertHasString(bundle, BUNDLE_EXTRA_STRING_TIME);
+            BundleAssertions.assertHasBoolean(bundle, BUNDLE_EXTRA_BOOLEAN_ENABLED);
             BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_VERSION_CODE);
             //BundleAssertions.assertKeyCount(bundle, 4);
         } catch (final AssertionError e) {
@@ -242,7 +247,8 @@ public final class AlarmBundleValues {
     @NonNull
     public static Bundle generateModifyAlarmBundle(@NonNull final Context context,
                                                    final int alarmId,
-                                                   final String time) {
+                                                   final String time,
+                                                   final boolean enabled) {
         assertNotNull(context, "context");
         assertNotNull(alarmId, "alarmId");
         assertNotNull(time, "time");
@@ -252,6 +258,7 @@ public final class AlarmBundleValues {
         result.putInt(BUNDLE_EXTRA_INT_ACTION, Actions.MODIFY.getValue());
         result.putInt(BUNDLE_EXTRA_INT_ALARM_ID, alarmId);
         result.putString(BUNDLE_EXTRA_STRING_TIME, time);
+        result.putBoolean(BUNDLE_EXTRA_BOOLEAN_ENABLED, enabled);
 
         return result;
     }
