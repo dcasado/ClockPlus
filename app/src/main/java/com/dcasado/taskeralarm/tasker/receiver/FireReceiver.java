@@ -2,9 +2,12 @@ package com.dcasado.taskeralarm.tasker.receiver;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.dcasado.taskeralarm.R;
 import com.dcasado.taskeralarm.alarms.Alarm;
 import com.dcasado.taskeralarm.alarms.data.AlarmCursor;
 import com.dcasado.taskeralarm.alarms.data.AlarmsTableManager;
@@ -54,7 +57,7 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
                 }
                 int hour = Integer.valueOf(parsedTime[0]);
                 int minutes = Integer.valueOf(parsedTime[1]);
-                createAlarm(label, hour, minutes);
+                createAlarm(context, label, hour, minutes);
                 break;
             case 1:
                 alarmId = bundle.getInt(AlarmBundleValues.BUNDLE_EXTRA_INT_ALARM_ID);
@@ -81,11 +84,15 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
         return parsedTime;
     }
 
-    private void createAlarm(String label, int hour, int minutes) {
+    private void createAlarm(Context context, String label, int hour, int minutes) {
+        String ringtone = PreferenceManager.getDefaultSharedPreferences(context).getString(
+                context.getString(R.string.key_alarm_ringtone), Settings.System.ALARM_ALERT);
+
         Alarm alarm = Alarm.builder()
                 .label(label)
                 .hour(hour)
                 .minutes(minutes)
+                .ringtone(ringtone)
                 .build();
         alarm.setEnabled(true);
 
