@@ -20,19 +20,19 @@ public final class AlarmBundleValues {
 
     @NonNull
     public static final String BUNDLE_EXTRA_INT_ACTION
-            = "com.dcasado.extra.ACTIONS_ACTION"; //$NON-NLS-1$
+            = "com.dcasado.extra.ACTIONS_ACTION";
 
     @NonNull
     public static final String BUNDLE_EXTRA_INT_ALARM_ID
-            = "com.dcasado.extra.INT_ALARM_ID"; //$NON-NLS-1$
+            = "com.dcasado.extra.INT_ALARM_ID";
 
     @NonNull
     public static final String BUNDLE_EXTRA_STRING_LABEL
-            = "com.dcasado.extra.STRING_LABEL"; //$NON-NLS-1$
+            = "com.dcasado.extra.STRING_LABEL";
 
     @NonNull
     public static final String BUNDLE_EXTRA_STRING_TIME
-            = "com.dcasado.extra.STRING_TIME"; //$NON-NLS-1$
+            = "com.dcasado.extra.STRING_TIME";
 
     /**
      * Type: {@code int}.
@@ -46,7 +46,7 @@ public final class AlarmBundleValues {
      */
     @NonNull
     public static final String BUNDLE_EXTRA_INT_VERSION_CODE
-            = "com.dcasado.extra.INT_VERSION_CODE"; //$NON-NLS-1$
+            = "com.dcasado.extra.INT_VERSION_CODE";
 
     /**
      * Private constructor prevents instantiation
@@ -54,7 +54,7 @@ public final class AlarmBundleValues {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private AlarmBundleValues() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 
     /**
@@ -80,6 +80,8 @@ public final class AlarmBundleValues {
                 return isEnableAlarmBundleValid(bundle);
             case 3:
                 return isDisableAlarmBundleValid(bundle);
+            case 4:
+                return isModifyAlarmBundleValid(bundle);
             default:
                 return false;
         }
@@ -93,7 +95,7 @@ public final class AlarmBundleValues {
             BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_VERSION_CODE);
 //            BundleAssertions.assertKeyCount(bundle, 4);
         } catch (final AssertionError e) {
-            Lumberjack.e("Bundle failed verification%s", e); //$NON-NLS-1$
+            Lumberjack.e("Bundle failed verification%s", e);
             return false;
         }
         return true;
@@ -106,7 +108,7 @@ public final class AlarmBundleValues {
             BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_VERSION_CODE);
             BundleAssertions.assertKeyCount(bundle, 3);
         } catch (final AssertionError e) {
-            Lumberjack.e("Bundle failed verification%s", e); //$NON-NLS-1$
+            Lumberjack.e("Bundle failed verification%s", e);
             return false;
         }
         return true;
@@ -119,7 +121,7 @@ public final class AlarmBundleValues {
             BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_VERSION_CODE);
             BundleAssertions.assertKeyCount(bundle, 3);
         } catch (final AssertionError e) {
-            Lumberjack.e("Bundle failed verification%s", e); //$NON-NLS-1$
+            Lumberjack.e("Bundle failed verification%s", e);
             return false;
         }
         return true;
@@ -132,12 +134,25 @@ public final class AlarmBundleValues {
             BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_VERSION_CODE);
             BundleAssertions.assertKeyCount(bundle, 3);
         } catch (final AssertionError e) {
-            Lumberjack.e("Bundle failed verification%s", e); //$NON-NLS-1$
+            Lumberjack.e("Bundle failed verification%s", e);
             return false;
         }
         return true;
     }
 
+    private static boolean isModifyAlarmBundleValid(@NonNull final Bundle bundle) {
+        try {
+            BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_ACTION);
+            BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_ALARM_ID);
+            BundleAssertions.assertHasString(bundle, BUNDLE_EXTRA_STRING_TIME);
+            BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_VERSION_CODE);
+            BundleAssertions.assertKeyCount(bundle, 4);
+        } catch (final AssertionError e) {
+            Lumberjack.e("Bundle failed verification%s", e);
+            return false;
+        }
+        return true;
+    }
 
     /**
      * @param context Application context.
@@ -149,7 +164,7 @@ public final class AlarmBundleValues {
     public static Bundle generateCreateAlarmBundle(@NonNull final Context context,
                                                    @NonNull final String label,
                                                    @NonNull final String time) {
-        assertNotNull(context, "context"); //$NON-NLS-1$
+        assertNotNull(context, "context");
         assertNotEmpty(label, "label");
         assertNotEmpty(label, "time");
 
@@ -170,7 +185,7 @@ public final class AlarmBundleValues {
     @NonNull
     public static Bundle generateDeleteAlarmBundle(@NonNull final Context context,
                                                    final int alarmId) {
-        assertNotNull(context, "context"); //$NON-NLS-1$
+        assertNotNull(context, "context");
         assertNotNull(alarmId, "alarmId");
 
         final Bundle result = new Bundle();
@@ -189,7 +204,7 @@ public final class AlarmBundleValues {
     @NonNull
     public static Bundle generateEnableAlarmBundle(@NonNull final Context context,
                                                    final int alarmId) {
-        assertNotNull(context, "context"); //$NON-NLS-1$
+        assertNotNull(context, "context");
         assertNotNull(alarmId, "alarmId");
 
         final Bundle result = new Bundle();
@@ -208,13 +223,34 @@ public final class AlarmBundleValues {
     @NonNull
     public static Bundle generateDisableAlarmBundle(@NonNull final Context context,
                                                     final int alarmId) {
-        assertNotNull(context, "context"); //$NON-NLS-1$
+        assertNotNull(context, "context");
         assertNotNull(alarmId, "alarmId");
 
         final Bundle result = new Bundle();
         result.putInt(BUNDLE_EXTRA_INT_VERSION_CODE, AppBuildInfo.getVersionCode(context));
         result.putInt(BUNDLE_EXTRA_INT_ACTION, Actions.DISABLE.getValue());
         result.putInt(BUNDLE_EXTRA_INT_ALARM_ID, alarmId);
+
+        return result;
+    }
+
+    /**
+     * @param context Application context.
+     * @param alarmId The ID of the alarm to disable
+     * @return A plug-in bundle.
+     */
+    @NonNull
+    public static Bundle generateModifyAlarmBundle(@NonNull final Context context,
+                                                    final int alarmId,
+                                                    final String time) {
+        assertNotNull(context, "context");
+        assertNotNull(alarmId, "alarmId");
+
+        final Bundle result = new Bundle();
+        result.putInt(BUNDLE_EXTRA_INT_VERSION_CODE, AppBuildInfo.getVersionCode(context));
+        result.putInt(BUNDLE_EXTRA_INT_ACTION, Actions.MODIFY.getValue());
+        result.putInt(BUNDLE_EXTRA_INT_ALARM_ID, alarmId);
+        result.putString(BUNDLE_EXTRA_STRING_TIME, time);
 
         return result;
     }
