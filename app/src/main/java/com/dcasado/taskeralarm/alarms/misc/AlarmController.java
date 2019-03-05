@@ -94,11 +94,22 @@ public final class AlarmController {
         AlarmManager am = (AlarmManager) mAppContext.getSystemService(Context.ALARM_SERVICE);
 
         final long ringAt = alarm.isSnoozed() ? alarm.snoozingUntil() : alarm.ringsAt();
-        final PendingIntent alarmIntent = alarmIntent(alarm, false);
+        final PendingIntent alarmIntent = alarmIntent(alarm, true);
 
-        PendingIntent showIntent = ContentIntentUtils.create(mAppContext, MainActivity.PAGE_ALARMS, alarm.getId());
-        AlarmManager.AlarmClockInfo info = new AlarmManager.AlarmClockInfo(ringAt, showIntent);
-        am.setAlarmClock(info, alarmIntent);
+        // Creating alarm
+        if (alarmIntent == null) {
+            Intent intent = new Intent(mAppContext, AlarmActivity.class)
+                    .putExtra(AlarmActivity.EXTRA_RINGING_OBJECT, ParcelableUtil.marshall(alarm));
+            PendingIntent alarmCreation = getActivity(mAppContext, alarm.getIntId(), intent, FLAG_CANCEL_CURRENT);
+            PendingIntent showIntent = ContentIntentUtils.create(mAppContext, MainActivity.PAGE_ALARMS, alarm.getId());
+            AlarmManager.AlarmClockInfo info = new AlarmManager.AlarmClockInfo(ringAt, showIntent);
+            am.setAlarmClock(info, alarmCreation);
+        // Updating alarm
+        } else {
+            PendingIntent showIntent = ContentIntentUtils.create(mAppContext, MainActivity.PAGE_ALARMS, alarm.getId());
+            AlarmManager.AlarmClockInfo info = new AlarmManager.AlarmClockInfo(ringAt, showIntent);
+            am.setAlarmClock(info, alarmIntent);
+        }
 
         final int hoursToNotifyInAdvance = AlarmPreferences.hoursBeforeUpcoming(mAppContext);
         if (hoursToNotifyInAdvance > 0 || alarm.isSnoozed()) {
