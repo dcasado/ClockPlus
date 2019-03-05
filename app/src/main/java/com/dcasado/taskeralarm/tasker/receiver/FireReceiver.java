@@ -138,7 +138,8 @@ public final class FireReceiver extends AbstractPluginSettingReceiver {
                 .minutes(minutes)
                 .build();
         alarm.copyMutableFieldsTo(newAlarm);
-        mAlarmController.scheduleAlarm(alarm, false);
+        mAlarmController.scheduleAlarm(newAlarm, false);
+        mAlarmController.save(newAlarm);
         Log.d(TAG, "Alarm modified: " + alarmId);
     }
 }

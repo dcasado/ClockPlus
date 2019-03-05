@@ -146,7 +146,7 @@ public final class AlarmBundleValues {
             BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_ALARM_ID);
             BundleAssertions.assertHasString(bundle, BUNDLE_EXTRA_STRING_TIME);
             BundleAssertions.assertHasInt(bundle, BUNDLE_EXTRA_INT_VERSION_CODE);
-            BundleAssertions.assertKeyCount(bundle, 4);
+            //BundleAssertions.assertKeyCount(bundle, 4);
         } catch (final AssertionError e) {
             Lumberjack.e("Bundle failed verification%s", e);
             return false;
