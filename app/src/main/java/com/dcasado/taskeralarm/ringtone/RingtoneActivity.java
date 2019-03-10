@@ -24,8 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -39,6 +37,8 @@ import com.dcasado.taskeralarm.ringtone.playback.RingtoneService;
 import com.dcasado.taskeralarm.util.LocalBroadcastHelper;
 import com.dcasado.taskeralarm.util.ParcelableUtil;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

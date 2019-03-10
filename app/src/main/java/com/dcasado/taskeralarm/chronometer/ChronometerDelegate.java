@@ -21,7 +21,6 @@ package com.dcasado.taskeralarm.chronometer;
 
 import android.content.res.Resources;
 import android.os.SystemClock;
-import android.support.annotation.Nullable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -34,6 +33,8 @@ import com.dcasado.taskeralarm.R;
 import java.util.Formatter;
 import java.util.IllegalFormatException;
 import java.util.Locale;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by Phillip Hsu on 9/7/2016.

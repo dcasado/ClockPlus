@@ -28,10 +28,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,9 +42,13 @@ import com.dcasado.taskeralarm.stopwatch.StopwatchNotificationService;
 import com.dcasado.taskeralarm.stopwatch.data.LapCursor;
 import com.dcasado.taskeralarm.stopwatch.data.LapsCursorLoader;
 import com.dcasado.taskeralarm.util.ProgressBarUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.ref.WeakReference;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.loader.content.Loader;
 import butterknife.Bind;
 import butterknife.OnClick;
 

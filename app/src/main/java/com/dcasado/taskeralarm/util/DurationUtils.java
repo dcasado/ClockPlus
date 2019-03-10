@@ -20,12 +20,13 @@
 package com.dcasado.taskeralarm.util;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 
 import com.dcasado.taskeralarm.R;
 
 import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 /**
  * Created by Phillip Hsu on 6/6/2016.

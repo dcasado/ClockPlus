@@ -19,8 +19,9 @@
 
 package com.dcasado.taskeralarm.util;
 
-import android.support.design.widget.Snackbar;
 import android.view.View;
+
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * Created by Phillip Hsu on 7/10/2016.

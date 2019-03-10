@@ -25,7 +25,6 @@ import android.net.Uri;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.v4.app.NotificationCompat;
 
 import com.dcasado.taskeralarm.BaseActivity;
 import com.dcasado.taskeralarm.R;
@@ -33,6 +32,8 @@ import com.dcasado.taskeralarm.timers.Timer;
 import com.dcasado.taskeralarm.timers.TimerController;
 import com.dcasado.taskeralarm.timers.TimerNotificationService;
 import com.dcasado.taskeralarm.timers.data.AsyncTimersTableUpdateHandler;
+
+import androidx.core.app.NotificationCompat;
 
 public class TimerRingtoneService extends RingtoneService<Timer> {
     private static final String TAG = "TimerRingtoneService";

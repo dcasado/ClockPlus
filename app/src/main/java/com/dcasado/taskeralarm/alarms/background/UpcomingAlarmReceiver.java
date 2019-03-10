@@ -25,7 +25,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
 
 import com.dcasado.taskeralarm.BaseActivity;
 import com.dcasado.taskeralarm.MainActivity;
@@ -34,6 +33,8 @@ import com.dcasado.taskeralarm.alarms.Alarm;
 import com.dcasado.taskeralarm.alarms.misc.AlarmController;
 import com.dcasado.taskeralarm.util.ContentIntentUtils;
 import com.dcasado.taskeralarm.util.ParcelableUtil;
+
+import androidx.core.app.NotificationCompat;
 
 import static com.dcasado.taskeralarm.util.TimeFormatUtils.formatTime;
 

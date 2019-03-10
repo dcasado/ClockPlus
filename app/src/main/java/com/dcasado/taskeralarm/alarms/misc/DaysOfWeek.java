@@ -20,11 +20,12 @@
 package com.dcasado.taskeralarm.alarms.misc;
 
 import android.content.Context;
-import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import java.text.DateFormatSymbols;
 import java.util.Arrays;
+
+import androidx.annotation.VisibleForTesting;
 
 /**
  * Created by Phillip Hsu on 5/30/2016.

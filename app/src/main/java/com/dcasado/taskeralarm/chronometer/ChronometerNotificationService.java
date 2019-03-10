@@ -25,15 +25,16 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.CallSuper;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.util.SimpleArrayMap;
 
 import com.dcasado.taskeralarm.BaseActivity;
 import com.dcasado.taskeralarm.R;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.SimpleArrayMap;
+import androidx.core.app.NotificationCompat;
 
 /**
  * Created by Phillip Hsu on 9/10/2016.

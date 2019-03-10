@@ -19,7 +19,7 @@
 
 package com.dcasado.taskeralarm.util;
 
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 
 /**
  * Created by Phillip Hsu on 9/7/2016.

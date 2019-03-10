@@ -22,10 +22,6 @@ package com.dcasado.taskeralarm.timers.ui;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IdRes;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,18 +30,22 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.dcasado.taskeralarm.R;
 import com.dcasado.taskeralarm.dialogs.AddLabelDialog;
 import com.dcasado.taskeralarm.dialogs.AddLabelDialogController;
-import com.dcasado.taskeralarm.timers.TimerController;
-import com.dcasado.taskeralarm.ringtone.playback.TimerRingtoneService;
-import com.dcasado.taskeralarm.timers.data.AsyncTimersTableUpdateHandler;
 import com.dcasado.taskeralarm.list.BaseViewHolder;
 import com.dcasado.taskeralarm.list.OnListItemInteractionListener;
-import com.dcasado.taskeralarm.R;
+import com.dcasado.taskeralarm.ringtone.playback.TimerRingtoneService;
 import com.dcasado.taskeralarm.timers.Timer;
+import com.dcasado.taskeralarm.timers.TimerController;
+import com.dcasado.taskeralarm.timers.data.AsyncTimersTableUpdateHandler;
 import com.dcasado.taskeralarm.util.FragmentTagUtils;
 import com.dcasado.taskeralarm.util.ProgressBarUtils;
 
+import androidx.annotation.IdRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.core.content.ContextCompat;
 import butterknife.Bind;
 import butterknife.OnClick;
 

@@ -2,8 +2,6 @@ package com.dcasado.taskeralarm.tasker.activities;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +13,9 @@ import com.twofortyfouram.locale.sdk.client.ui.activity.AbstractAppCompatPluginA
 import com.twofortyfouram.log.Lumberjack;
 
 import net.jcip.annotations.NotThreadSafe;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 @NotThreadSafe
 public final class DeleteAlarmActivity extends AbstractAppCompatPluginActivity {

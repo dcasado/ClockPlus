@@ -19,14 +19,15 @@
 
 package com.dcasado.taskeralarm.alarms.ui;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.dcasado.taskeralarm.list.BaseCursorAdapter;
-import com.dcasado.taskeralarm.list.OnListItemInteractionListener;
 import com.dcasado.taskeralarm.alarms.Alarm;
 import com.dcasado.taskeralarm.alarms.data.AlarmCursor;
 import com.dcasado.taskeralarm.alarms.misc.AlarmController;
+import com.dcasado.taskeralarm.list.BaseCursorAdapter;
+import com.dcasado.taskeralarm.list.OnListItemInteractionListener;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Phillip Hsu on 6/29/2016.

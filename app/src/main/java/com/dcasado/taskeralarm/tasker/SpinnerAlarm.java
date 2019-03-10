@@ -1,8 +1,8 @@
 package com.dcasado.taskeralarm.tasker;
 
-import android.support.annotation.NonNull;
-
 import com.dcasado.taskeralarm.alarms.Alarm;
+
+import androidx.annotation.NonNull;
 
 public class SpinnerAlarm {
     private String text;

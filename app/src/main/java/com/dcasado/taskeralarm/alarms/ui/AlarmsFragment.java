@@ -23,9 +23,6 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
-import android.support.v4.content.Loader;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +38,10 @@ import com.dcasado.taskeralarm.alarms.misc.AlarmController;
 import com.dcasado.taskeralarm.dialogs.TimePickerDialogController;
 import com.dcasado.taskeralarm.list.RecyclerViewFragment;
 import com.dcasado.taskeralarm.util.DelayedSnackbarHandler;
+
+import androidx.annotation.Nullable;
+import androidx.loader.content.Loader;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.dcasado.taskeralarm.util.FragmentTagUtils.makeTag;
 

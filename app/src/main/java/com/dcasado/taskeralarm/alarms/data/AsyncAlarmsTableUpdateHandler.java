@@ -20,14 +20,14 @@
 package com.dcasado.taskeralarm.alarms.data;
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import com.dcasado.taskeralarm.data.AsyncDatabaseTableUpdateHandler;
 import com.dcasado.taskeralarm.R;
 import com.dcasado.taskeralarm.alarms.Alarm;
-import com.dcasado.taskeralarm.list.ScrollHandler;
 import com.dcasado.taskeralarm.alarms.misc.AlarmController;
+import com.dcasado.taskeralarm.data.AsyncDatabaseTableUpdateHandler;
+import com.dcasado.taskeralarm.list.ScrollHandler;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * Created by Phillip Hsu on 7/1/2016.

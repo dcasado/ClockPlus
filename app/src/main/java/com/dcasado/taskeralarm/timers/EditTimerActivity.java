@@ -21,9 +21,6 @@ package com.dcasado.taskeralarm.timers;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.GridLayout;
 import android.text.InputType;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,7 +33,10 @@ import com.dcasado.taskeralarm.R;
 import com.dcasado.taskeralarm.dialogs.AddLabelDialog;
 import com.dcasado.taskeralarm.dialogs.AddLabelDialogController;
 import com.dcasado.taskeralarm.util.FragmentTagUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.annotation.IdRes;
+import androidx.gridlayout.widget.GridLayout;
 import butterknife.Bind;
 import butterknife.OnClick;
 import butterknife.OnLongClick;

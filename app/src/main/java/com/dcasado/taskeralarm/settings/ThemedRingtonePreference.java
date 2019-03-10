@@ -27,11 +27,12 @@ import android.net.Uri;
 import android.os.Parcelable;
 import android.preference.RingtonePreference;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 
 import com.dcasado.taskeralarm.dialogs.RingtonePickerDialog;
 import com.dcasado.taskeralarm.dialogs.RingtonePickerDialogController;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by Phillip Hsu on 9/20/2016.

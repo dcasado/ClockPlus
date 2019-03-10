@@ -23,10 +23,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
 import com.dcasado.taskeralarm.util.LocalBroadcastHelper;
+
+import androidx.loader.content.AsyncTaskLoader;
 
 /**
  * Created by Phillip Hsu on 6/28/2016.

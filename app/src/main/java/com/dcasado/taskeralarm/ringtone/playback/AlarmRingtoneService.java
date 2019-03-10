@@ -24,13 +24,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcelable;
 import android.provider.Settings;
-import android.support.v4.app.NotificationCompat;
 
 import com.dcasado.taskeralarm.BaseActivity;
 import com.dcasado.taskeralarm.R;
 import com.dcasado.taskeralarm.alarms.Alarm;
 import com.dcasado.taskeralarm.alarms.misc.AlarmController;
 import com.dcasado.taskeralarm.alarms.misc.AlarmPreferences;
+
+import androidx.core.app.NotificationCompat;
 
 import static com.dcasado.taskeralarm.util.TimeFormatUtils.formatTime;
 

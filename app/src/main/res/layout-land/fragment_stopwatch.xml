@@ -18,7 +18,7 @@
   ~ along with ClockPlus.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -45,7 +45,7 @@
               - Unfortunately, we can't include fragment_recycler_view
               - because we don't want the bottom padding
              -->
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list"
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -55,7 +55,7 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.GridLayout
+        <androidx.gridlayout.widget.GridLayout
             android:id="@id/mini_fab_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fab_total_height"
@@ -73,7 +73,7 @@
                 android:id="@+id/stop"
                 style="@style/StopButton"/>
 
-        </android.support.v7.widget.GridLayout>
+        </androidx.gridlayout.widget.GridLayout>
 
     </RelativeLayout>
 
@@ -83,4 +83,4 @@
         app:layout_anchorGravity="top"
         style="@style/BaseSeekBar"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

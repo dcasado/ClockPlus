@@ -25,8 +25,6 @@ import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Vibrator;
-import android.support.annotation.IdRes;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +41,8 @@ import com.dcasado.taskeralarm.list.OnListItemInteractionListener;
 import com.dcasado.taskeralarm.timepickers.Utils;
 import com.dcasado.taskeralarm.util.FragmentTagUtils;
 
+import androidx.annotation.IdRes;
+import androidx.core.graphics.drawable.DrawableCompat;
 import butterknife.Bind;
 import butterknife.OnClick;
 

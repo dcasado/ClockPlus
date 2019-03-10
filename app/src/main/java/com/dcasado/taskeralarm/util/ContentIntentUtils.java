@@ -22,10 +22,11 @@ package com.dcasado.taskeralarm.util;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 
 import com.dcasado.taskeralarm.MainActivity;
 import com.dcasado.taskeralarm.list.RecyclerViewFragment;
+
+import androidx.annotation.NonNull;
 
 import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
 

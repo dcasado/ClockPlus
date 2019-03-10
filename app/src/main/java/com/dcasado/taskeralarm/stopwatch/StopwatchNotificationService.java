@@ -24,17 +24,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.dcasado.taskeralarm.chronometer.ChronometerNotificationService;
 import com.dcasado.taskeralarm.MainActivity;
 import com.dcasado.taskeralarm.R;
 import com.dcasado.taskeralarm.chronometer.ChronometerDelegate;
+import com.dcasado.taskeralarm.chronometer.ChronometerNotificationService;
 import com.dcasado.taskeralarm.stopwatch.data.AsyncLapsTableUpdateHandler;
 import com.dcasado.taskeralarm.stopwatch.ui.StopwatchFragment;
 import com.dcasado.taskeralarm.util.ContentIntentUtils;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class StopwatchNotificationService extends ChronometerNotificationService {
     private static final String TAG = "StopwatchNotifService";

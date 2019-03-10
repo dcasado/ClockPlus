@@ -22,9 +22,6 @@ package com.dcasado.taskeralarm.timers;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.util.SimpleArrayMap;
 import android.util.Log;
 
 import com.dcasado.taskeralarm.MainActivity;
@@ -34,6 +31,10 @@ import com.dcasado.taskeralarm.timers.data.AsyncTimersTableUpdateHandler;
 import com.dcasado.taskeralarm.timers.data.TimerCursor;
 import com.dcasado.taskeralarm.util.ContentIntentUtils;
 import com.dcasado.taskeralarm.util.ParcelableUtil;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.SimpleArrayMap;
 
 /**
  * Handles the notification for an active Timer.

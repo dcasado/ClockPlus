@@ -19,10 +19,11 @@
 
 package com.dcasado.taskeralarm.dialogs;
 
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 /**
  * Created by Phillip Hsu on 9/6/2016.

@@ -23,7 +23,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
@@ -39,6 +38,7 @@ import com.dcasado.taskeralarm.util.ContentIntentUtils;
 import com.dcasado.taskeralarm.util.DelayedSnackbarHandler;
 import com.dcasado.taskeralarm.util.DurationUtils;
 import com.dcasado.taskeralarm.util.ParcelableUtil;
+import com.google.android.material.snackbar.Snackbar;
 
 import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
 import static android.app.PendingIntent.FLAG_NO_CREATE;

@@ -21,9 +21,10 @@ package com.dcasado.taskeralarm.alarms.misc;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
-import android.support.annotation.StringRes;
 
 import com.dcasado.taskeralarm.R;
+
+import androidx.annotation.StringRes;
 
 /**
  * Created by Phillip Hsu on 6/3/2016.

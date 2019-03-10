@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.SystemClock;
-import android.support.v4.app.NotificationCompat;
 import android.view.ViewGroup;
 
 import com.dcasado.taskeralarm.BaseActivity;
@@ -37,6 +36,8 @@ import com.dcasado.taskeralarm.timers.TimerController;
 import com.dcasado.taskeralarm.timers.TimerNotificationService;
 import com.dcasado.taskeralarm.timers.data.AsyncTimersTableUpdateHandler;
 import com.dcasado.taskeralarm.timers.ui.CountdownChronometer;
+
+import androidx.core.app.NotificationCompat;
 
 public class TimesUpActivity extends RingtoneActivity<Timer> {
     private static final String TAG = "TimesUpActivity";

@@ -31,7 +31,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Parcelable;
 import android.os.Vibrator;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.dcasado.taskeralarm.R;
@@ -40,6 +39,8 @@ import com.dcasado.taskeralarm.util.LocalBroadcastHelper;
 import com.dcasado.taskeralarm.util.ParcelableUtil;
 
 import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.NonNull;
 
 /**
  * Runs in the foreground. While it can still be killed by the system, it stays alive significantly

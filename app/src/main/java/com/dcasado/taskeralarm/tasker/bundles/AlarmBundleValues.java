@@ -2,8 +2,6 @@ package com.dcasado.taskeralarm.tasker.bundles;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.dcasado.taskeralarm.tasker.Actions;
 import com.twofortyfouram.assertion.BundleAssertions;
@@ -11,6 +9,9 @@ import com.twofortyfouram.log.Lumberjack;
 import com.twofortyfouram.spackle.AppBuildInfo;
 
 import net.jcip.annotations.ThreadSafe;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import static com.twofortyfouram.assertion.Assertions.assertNotEmpty;
 import static com.twofortyfouram.assertion.Assertions.assertNotNull;

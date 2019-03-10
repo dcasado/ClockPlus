@@ -19,8 +19,9 @@
 
 package com.dcasado.taskeralarm.dialogs;
 
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
+
+import androidx.fragment.app.FragmentManager;
 
 /**
  * Created by Phillip Hsu on 9/6/2016.
